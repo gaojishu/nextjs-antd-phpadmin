@@ -9,6 +9,10 @@ const AntdThemeConfig: ThemeConfig = {
     Tabs: {
       horizontalMargin: '0'
     },
+    Layout: {
+      siderBg: '#f5f5f5',
+      headerBg: '#f5f5f5'
+    }
   },
 };
 

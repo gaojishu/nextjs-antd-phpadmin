@@ -4,9 +4,9 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from '@/store';
 import { Tabs } from 'antd';
 
-import Aside from './Aside';
-import Footer from './Footer';
-import Header from './Header';
+import Aside from './SiderLayout';
+import Footer from './FooterLayout';
+import Header from './HeaderLayout';
 import TabPage from './TabPage';
 
 

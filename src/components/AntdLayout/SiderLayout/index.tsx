@@ -4,7 +4,7 @@ import type { MenuProps } from 'antd';
 
 export default () => {
     type MenuItem = Required<MenuProps>['items'][number];
-    const menu: MenuItem[] = [
+    let menu: MenuItem[] = [
         {
             key: '1',
             label: 'Navigation One',
@@ -30,23 +30,25 @@ export default () => {
 
     const menuClassName: string = 'h-15 leading-15 text-center hover:bg-cyan-600 mb-1';
     return (
-        <aside className='flex border-r border-slate-200'>
-            <div className='w-17 bg-[#001529] text-white cursor-pointer'>
+        <div className='flex h-full'>
+            <div className='h-full w-17 bg-[#001529] text-white cursor-pointer'>
                 <div className={menuClassName + ' bg-cyan-600'}>首页</div>
-                <div className={menuClassName}>首页</div>
+                <div onClick={() => {
+                    menu = []
+                }} className={menuClassName}>首页</div>
                 <div className={menuClassName}>首页</div>
                 <div className={menuClassName}>首页</div>
                 <div className={menuClassName}>首页</div>
                 <div className={menuClassName}>首页</div>
                 <div className={menuClassName}>首页</div>
             </div>
-            <div className=''>
+            <div className='h-full bg-[#fff]'>
                 <Menu
                     mode="inline"
                     theme="light"
                     items={menu}
                 />
             </div>
-        </aside>
+        </div>
     );
 }

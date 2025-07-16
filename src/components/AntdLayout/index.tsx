@@ -5,10 +5,10 @@ import { store, persistor } from '@/store';
 import { Layout, Tabs } from 'antd';
 const { Header, Footer, Sider, Content } = Layout;
 
-// import Aside from './Aside';
-// import Footer from './Footer';
-// import Header from './Header';
-// import TabPage from './TabPage';
+import SiderLayout from './SiderLayout';
+import FooterLayout from './FooterLayout';
+import HeaderLayout from './HeaderLayout';
+import TabPage from './TabPage';
 
 
 export default ({ children }: React.PropsWithChildren) => {
@@ -16,26 +16,19 @@ export default ({ children }: React.PropsWithChildren) => {
         <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
                 <Layout className='w-screen h-screen'>
-                    <Header>Header</Header>
+                    <HeaderLayout />
                     <Layout>
-                        <Sider className='h-full'>
-                            Sider
+                        <Sider className='h-full' width={'auto'}>
+                            <SiderLayout />
                         </Sider>
                         <Layout>
                             <Content>
-                                <Tabs
-                                    defaultActiveKey="1"
-                                    items={Array.from({ length: 30 }, (_, i) => {
-                                        const id = String(i);
-                                        return {
-                                            label: `Tab-${id}`,
-                                            key: id,
-                                        };
-                                    })}
-                                />
+                                <TabPage />
                                 <main className='p-2'>{children}</main>
                             </Content>
-                            <Footer></Footer>
+                            <Footer>
+                                <FooterLayout />
+                            </Footer>
                         </Layout>
                     </Layout>
                 </Layout>
