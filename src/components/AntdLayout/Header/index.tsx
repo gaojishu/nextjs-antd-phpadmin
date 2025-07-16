@@ -4,6 +4,8 @@ export default () => {
 
 
     return (
-        <header className='h-15 bg-red-500'>Header</header>
+        <header className='h-15 bg-white border-b border-slate-200 shadow-sm'>
+            header
+        </header>
     );
 }

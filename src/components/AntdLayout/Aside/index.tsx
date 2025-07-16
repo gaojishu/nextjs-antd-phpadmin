@@ -30,7 +30,7 @@ export default () => {
 
     const menuClassName: string = 'h-15 leading-15 text-center hover:bg-cyan-600 mb-1';
     return (
-        <aside className='flex'>
+        <aside className='flex border-r border-slate-200'>
             <div className='w-17 bg-[#001529] text-white cursor-pointer'>
                 <div className={menuClassName + ' bg-cyan-600'}>首页</div>
                 <div className={menuClassName}>首页</div>

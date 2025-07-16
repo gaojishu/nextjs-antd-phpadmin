@@ -17,7 +17,9 @@ export default () => {
 
   return (
     <AntdLayout>
-      <Button type="primary">Button</Button>
+      <Button type="primary" onClick={()=>{
+        console.log(1111)
+      }}>Button</Button>
     </AntdLayout>
   );
 };
