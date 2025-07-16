@@ -1,11 +1,9 @@
-// persistConfig.ts
-
-import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
+import storage from 'redux-persist/lib/storage';
 
 export const PersistConfig = {
     key: 'root',
     storage,
-    whitelist: ['user', 'settings'],  // 需要持久化的reducer
+    whitelist: ['auth', 'setting'],  // 需要持久化的reducer
     blacklist: ['tmp'] // 不需要持久化的reducer
 };
 
