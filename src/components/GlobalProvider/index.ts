@@ -11,8 +11,8 @@ let notification: NotificationInstance;
 let modal: Omit<ModalStaticFunctions, 'warn'>;
 
 // nextjs组件
-let useRouterGlobal;
-let usePathnameGlobal;
+let useRouterGlobal: ReturnType<typeof useRouter>;;
+let usePathnameGlobal: string;
 
 export default () => {
     const staticFunction = App.useApp();

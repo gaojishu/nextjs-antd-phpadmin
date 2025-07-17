@@ -24,6 +24,9 @@ export default () => {
       <Button type="primary" onClick={() => {
         router.push('/login');
       }}>login</Button>
+      <Button type="primary" onClick={() => {
+        router.push('/auth');
+      }}>auth</Button>
     </AntdLayout>
   );
 };

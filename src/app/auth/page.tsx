@@ -5,6 +5,7 @@ import AntdLayout from '@/components/AntdLayout';
 import http from '@/utils/http';
 import { useRouter, usePathname } from 'next/navigation';
 
+
 export default () => {
     const router = useRouter();
     const pathname = usePathname();
@@ -19,16 +20,14 @@ export default () => {
     // }, []);
 
     return (
-
-        <>
+        <AntdLayout>
             <Button type="primary" onClick={() => {
-                router.push('/');
-            }}>index</Button>
+                router.push('/login');
+            }}>login</Button>
             <Button type="primary" onClick={() => {
                 router.push('/auth');
             }}>auth</Button>
-        </>
-
+        </AntdLayout>
     );
 };
 
