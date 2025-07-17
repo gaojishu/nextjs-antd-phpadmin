@@ -33,7 +33,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ConfigProvider theme={AntdThemeConfig}>
-          <App>
+          <App message={{ maxCount: 1, duration: 3 }}>
             <GlobalProvider />
             <AntdRegistry>
               {children}

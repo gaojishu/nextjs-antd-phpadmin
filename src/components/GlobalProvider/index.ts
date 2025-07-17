@@ -1,21 +1,28 @@
 'use client'
-import { App, message as antdMessage } from 'antd';
+import { App } from 'antd';
 import type { MessageInstance } from 'antd/es/message/interface';
 import type { ModalStaticFunctions } from 'antd/es/modal/confirm';
 import type { NotificationInstance } from 'antd/es/notification/interface';
+import { useRouter, usePathname } from 'next/navigation';
 
+//antd组件
 let message: MessageInstance;
 let notification: NotificationInstance;
 let modal: Omit<ModalStaticFunctions, 'warn'>;
 
-export default () => {
+// nextjs组件
+let useRouterGlobal;
+let usePathnameGlobal;
 
+export default () => {
     const staticFunction = App.useApp();
     message = staticFunction.message;
     modal = staticFunction.modal;
     notification = staticFunction.notification;
 
+    useRouterGlobal = useRouter();
+    usePathnameGlobal = usePathname();
     return null;
 };
 
-export { message, notification, modal };
+export { message, notification, modal, useRouterGlobal, usePathnameGlobal };

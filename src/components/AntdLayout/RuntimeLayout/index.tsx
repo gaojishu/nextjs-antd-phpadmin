@@ -10,7 +10,7 @@ export default () => {
         // 检查用户是否登录，例如通过检查localStorage中的token
         const token = localStorage.getItem('token');
         if (!token && pathname !== '/login') {
-            router.push('/login'); // 如果没有token则重定向到登录页面
+            //router.push('/login'); // 如果没有token则重定向到登录页面
         }
     }, [router]);  // 确保依赖数组中包含 router
 

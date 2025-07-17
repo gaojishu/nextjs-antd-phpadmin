@@ -35,7 +35,7 @@ export default ({ children }: React.PropsWithChildren) => {
 
             <PersistGate loading={null} persistor={persistor}>
                 <Layout className='w-screen h-screen'>
-                    <RuntimeLayout />
+                    {/* <RuntimeLayout /> */}
                     <HeaderLayout />
                     <Layout>
                         <Sider className='h-full' width={'auto'}>

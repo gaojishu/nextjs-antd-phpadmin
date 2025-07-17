@@ -8,6 +8,7 @@ import { useRouter, usePathname } from 'next/navigation';
 export default () => {
     const router = useRouter();
     const pathname = usePathname();
+
     //  useEffect(() => {
     //   async function fetchData() {
     //     const res = await http.get('/admin/auth/info');

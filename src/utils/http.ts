@@ -5,7 +5,7 @@ import type { AxiosRequestConfig, AxiosResponse } from 'axios';
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import { ApiResponse } from '@/types';
-import { message as antdMessage } from '@/components/GlobalProvider';
+import { message as antdMessage, useRouterGlobal } from '@/components/GlobalProvider';
 
 
 NProgress.configure({ showSpinner: false });
@@ -53,6 +53,10 @@ instance.interceptors.response.use(
         const message = error?.response?.data?.message || error.message;
 
         antdMessage.error(message);
+
+        if (status === 401) {
+            useRouterGlobal.push('/login');
+        }
 
         const reason: ApiResponse = {
             code: status,
