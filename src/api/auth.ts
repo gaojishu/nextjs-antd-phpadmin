@@ -8,3 +8,10 @@ export async function authLogin(data: AuthLogin) {
         data: data,
     });
 }
+
+export async function authInfo() {
+    return await http.get({
+        url: `/admin/auth/info`,
+        params: {},
+    });
+}

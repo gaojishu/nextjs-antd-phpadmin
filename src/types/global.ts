@@ -1,17 +1,20 @@
 export interface ICommonRecord {
-    readonly id: number | string;
-    readonly createdAt: string;
-    readonly updatedAt: string;
-    readonly deletedAt: string | null;
+  readonly id: number | string;
+  readonly createdAt: string;
+  readonly updatedAt: string;
+  readonly deletedAt: string | null;
 }
 
 export type ValueLabel = {
-    value: string | number;
-    label: string;
+  value: string | number;
+  label: string;
 }
 
 export interface ApiResponse<T = any> {
+  success: boolean;
+  httpStatus: number;
   code: number;
   message: string;
   data: T;
+  reqId: string;
 }

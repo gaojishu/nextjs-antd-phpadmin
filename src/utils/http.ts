@@ -1,9 +1,12 @@
+'use client'
 import axios from 'axios';
 import type { AxiosRequestConfig, AxiosResponse } from 'axios';
 // @ts-ignore
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import { ApiResponse } from '@/types';
+import { message as antdMessage } from '@/components/GlobalProvider';
+
 
 NProgress.configure({ showSpinner: false });
 
@@ -14,6 +17,7 @@ const instance = axios.create({
 
 // 请求拦截器
 instance.interceptors.request.use(config => {
+
     NProgress.start();
 
     config.withCredentials = true;
@@ -25,6 +29,8 @@ instance.interceptors.request.use(config => {
     config.headers['Content-Type'] = 'application/json';
     return config;
 }, error => {
+    antdMessage.error('err');
+
     NProgress.done();
     return Promise.reject(error);
 });
@@ -36,6 +42,7 @@ instance.interceptors.response.use(
         const { message } = response?.data ?? {};
         if (message) {
             // 可选：统一提示
+            antdMessage.success(message);
         }
         return response.data;
     },
@@ -45,62 +52,81 @@ instance.interceptors.response.use(
         const status = error?.response?.status;
         const message = error?.response?.data?.message || error.message;
 
-        switch (status) {
-            case 401:
-                // 处理未授权
-                break;
-            case 429:
-                // 处理频率限制
-                break;
-            default:
-                // 其他错误
-                console.error(message);
-        }
+        antdMessage.error(message);
 
-        return Promise.reject({ status, message });
+        const reason: ApiResponse = {
+            code: status,
+            httpStatus: status,
+            message: message,
+            data: null,
+            reqId: '',
+            success: false
+        };
+
+        return Promise.reject(reason);
     }
 );
 
 type request = { url: string, params?: any, data?: any, config?: AxiosRequestConfig }
 
 const get = async <T = any>(request: request) => {
-    return await instance.request<ApiResponse<T>>({
-        method: 'GET',
-        url: request.url,
-        params: request.params,
-        ...request.config,
-    });
+    try {
+        const { data } = await instance.request<ApiResponse<T>>({
+            method: 'GET',
+            url: request.url,
+            params: request.params,
+            ...request.config,
+        });
 
+        return data;
+    } catch (error) {
+        return error;
+    }
 };
 
 const post = async <T = any>(request: request) => {
-    return await instance.request<ApiResponse<T>>({
-        method: 'POST',
-        url: request.url,
-        params: request.params,
-        data: request.data,
-        ...request.config
-    });
+    try {
+        const { data } = await instance.request<ApiResponse<T>>({
+            method: 'POST',
+            url: request.url,
+            params: request.params,
+            data: request.data,
+            ...request.config
+        });
+        return data;
+    } catch (error) {
+        return error;
+    }
 }
 
 const put = async <T = any>(request: request) => {
-    return await instance.request<ApiResponse<T>>({
-        method: 'PUT',
-        url: request.url,
-        params: request.params,
-        data: request.data,
-        ...request.config
-    });
+    try {
+        const { data } = await instance.request<ApiResponse<T>>({
+            method: 'PUT',
+            url: request.url,
+            params: request.params,
+            data: request.data,
+            ...request.config
+        });
+        return data;
+    } catch (error) {
+        return error;
+    }
 }
 
 
 const del = async <T = any>(request: request) => {
-    return await instance.request<ApiResponse<T>>({
-        method: 'DELETE',
-        url: request.url,
-        params: request.params,
-        ...request.config
-    });
+    try {
+        const { data } = await instance.request<ApiResponse<T>>({
+            method: 'DELETE',
+            url: request.url,
+            params: request.params,
+            ...request.config
+        });
+        return data;
+    } catch (error) {
+        return error;
+    }
 }
 
 

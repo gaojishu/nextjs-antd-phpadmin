@@ -4,6 +4,8 @@ import { AntdRegistry } from '@ant-design/nextjs-registry';
 import { ConfigProvider, App } from 'antd';
 import AntdThemeConfig from "@/config/theme.config";
 
+import GlobalProvider from '@/components/GlobalProvider';
+
 import "./globals.css";
 
 const geistSans = Geist({
@@ -24,7 +26,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children
 }: React.PropsWithChildren) {
-
+  console.log('RootLayout 只运行一次');
   return (
     <html lang="en">
       <body
@@ -32,6 +34,7 @@ export default function RootLayout({
       >
         <ConfigProvider theme={AntdThemeConfig}>
           <App>
+            <GlobalProvider />
             <AntdRegistry>
               {children}
             </AntdRegistry>
