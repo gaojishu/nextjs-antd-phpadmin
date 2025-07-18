@@ -1,22 +1,23 @@
 'use client';
+import { useRouterGlobal } from '@/components/GlobalProvider';
 import { Menu } from 'antd';
 import type { MenuProps } from 'antd';
-import { useState } from 'react';
+import { use, useState } from 'react';
 
-export default function SiderLayout()  {
+export default function SiderLayout() {
     type MenuItem = Required<MenuProps>['items'][number];
 
     const menuItems: MenuItem[] = [
         {
-            key: '1',
+            key: '/auth',
             label: 'Navigation One',
         },
         {
-            key: '2',
+            key: '/login?v=123',
             label: 'Navigation Two',
         },
         {
-            key: '3',
+            key: '1',
             label: 'Navigation Three',
             children: [
                 { key: '4', label: 'Option 1' },
@@ -35,7 +36,7 @@ export default function SiderLayout()  {
             <div className={`h-full w-17 bg-[#001529] text-white cursor-pointer relative`}>
                 {/* 高亮条 */}
                 <div
-                    className="absolute left-0 top-0 h-[60px] w-full bg-cyan-600 transition duration-300 ease-in-out pointer-events-none z-0"
+                    className="absolute left-0 top-0 h-[60px] w-full bg-cyan-600 transition duration-800 ease-in-out pointer-events-none z-0"
                     style={{
                         transform: `translateY(${cur * 60}px)`,
                     }}
@@ -55,7 +56,9 @@ export default function SiderLayout()  {
 
             {/* 右侧 Ant Design 菜单 */}
             <div className="h-full bg-white flex-1">
-                <Menu mode="inline" theme="light" items={menuItems} />
+                <Menu mode="inline" defaultSelectedKeys={['4']} defaultOpenKeys={['4']} openKeys={['1']} theme="light" items={menuItems} onClick={({ key }) => {
+                    useRouterGlobal.push(key);
+                }} />
             </div>
         </div>
     );
