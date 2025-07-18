@@ -1,4 +1,4 @@
-import storage from 'redux-persist/lib/storage';
+import storage from '@/store/persistStorage';
 
 export const PersistConfig = {
     key: 'root',

@@ -1,6 +1,6 @@
 'use client'
 
-export default () => {
+export default function FooterLayout() {
 
     return (
         <div className='text-center'>

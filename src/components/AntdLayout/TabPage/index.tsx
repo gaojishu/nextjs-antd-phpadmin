@@ -2,7 +2,7 @@
 
 import { Space, Tabs } from "antd";
 
-export default () => {
+export default function TabPage() {
 
     const items = Array.from({ length: 30 }, (_, i) => {
         const id = String(i);

@@ -2,11 +2,9 @@
 import { Menu } from 'antd';
 import type { MenuProps } from 'antd';
 import { useState } from 'react';
-import SiderConfig from '@/config/sider.config';
 
-type MenuItem = Required<MenuProps>['items'][number];
-
-export default () => {
+export default function SiderLayout()  {
+    type MenuItem = Required<MenuProps>['items'][number];
 
     const menuItems: MenuItem[] = [
         {
