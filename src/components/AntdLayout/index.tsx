@@ -9,7 +9,7 @@ import FooterLayout from './FooterLayout';
 import HeaderLayout from './HeaderLayout';
 import TabPage from './TabPage';
 import { authInfo, authLogin } from '@/api/auth';
-import RuntimeLayout from "./RuntimeLayout";
+import RuntimeLayout from './RuntimeLayout';
 
 export default ({ children }: React.PropsWithChildren) => {
     useEffect(() => {
@@ -27,27 +27,28 @@ export default ({ children }: React.PropsWithChildren) => {
         getUserInfo();
         init();
     }, []);
+    export default function AntdLayout({ children }: React.PropsWithChildren) {
 
-    return (
+        return (
 
-        <Layout className='w-screen h-screen'>
-            {/* <RuntimeLayout /> */}
-            <HeaderLayout />
-            <Layout>
-                <Sider className='h-full' width={'auto'}>
-                    <SiderLayout />
-                </Sider>
+            <Layout className='w-screen h-screen'>
+                {/* <RuntimeLayout /> */}
+                <HeaderLayout />
                 <Layout>
-                    <Content>
-                        <TabPage />
-                        <main className='p-2'>{children}</main>
-                    </Content>
-                    <Footer>
-                        <FooterLayout />
-                    </Footer>
+                    <Sider className='h-full' width={'auto'}>
+                        <SiderLayout />
+                    </Sider>
+                    <Layout>
+                        <Content>
+                            <TabPage />
+                            <main className='p-2'>{children}</main>
+                        </Content>
+                        <Footer>
+                            <FooterLayout />
+                        </Footer>
+                    </Layout>
                 </Layout>
             </Layout>
-        </Layout>
 
-    )
-}
+        )
+    }
