@@ -3,10 +3,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import { ConfigProvider, App } from 'antd';
 import AntdThemeConfig from "@/config/theme.config";
-
 import GlobalProvider from '@/components/GlobalProvider';
 
 import "./globals.css";
+import ReduxProvider from "@/components/ReduxProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,14 +32,19 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ConfigProvider theme={AntdThemeConfig}>
-          <App message={{ maxCount: 1, duration: 3 }}>
-            <GlobalProvider />
-            <AntdRegistry>
-              {children}
-            </AntdRegistry>
-          </App>
-        </ConfigProvider>
+        <ReduxProvider>
+          <ConfigProvider theme={AntdThemeConfig}>
+            <App message={{ maxCount: 1, duration: 3 }}>
+              <GlobalProvider />
+              <AntdRegistry>
+                {children}
+              </AntdRegistry>
+            </App>
+          </ConfigProvider>
+
+        </ReduxProvider>
+
+
       </body>
     </html>
   );

@@ -6,6 +6,7 @@ import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import { ApiResponse } from '@/types';
 import { message as antdMessage, usePathnameGlobal, useRouterGlobal } from '@/components/GlobalProvider';
+import { store } from '@/store';
 
 NProgress.configure({ showSpinner: false });
 
@@ -20,12 +21,13 @@ instance.interceptors.request.use(config => {
     NProgress.start();
 
     config.withCredentials = true;
-    const token = localStorage.getItem('token');
-    if (token) {
-        config.headers['Authorization'] = `Bearer ${token}`;
+    const auth = store.getState().auth;
+    if (auth.token) {
+        config.headers[auth.header] = `${auth.prefix} ${auth.token}`;
     }
     config.headers['Accept'] = 'application/json';
     config.headers['Content-Type'] = 'application/json';
+    config.withCredentials = true;
     return config;
 }, error => {
     antdMessage.error('err');
@@ -43,7 +45,8 @@ instance.interceptors.response.use(
             // 可选：统一提示
             antdMessage.success(message);
         }
-        return response.data;
+
+        return response;
     },
     (error) => {
         NProgress.done();
@@ -54,7 +57,7 @@ instance.interceptors.response.use(
         antdMessage.error(message);
 
         if (status === 401) {
-            useRouterGlobal.push(`/login?redirect=${usePathnameGlobal}`);
+            // useRouterGlobal.push(`/login?redirect=${usePathnameGlobal}`);
         }
 
         const reason: ApiResponse = {
@@ -73,63 +76,48 @@ instance.interceptors.response.use(
 type request = { url: string, params?: any, data?: any, config?: AxiosRequestConfig }
 
 const get = async <T = any>(request: request) => {
-    try {
-        const { data } = await instance.request<ApiResponse<T>>({
-            method: 'GET',
-            url: request.url,
-            params: request.params,
-            ...request.config,
-        });
+    const res = await instance.request({
+        method: 'GET',
+        url: request.url,
+        params: request.params,
+        ...request.config,
+    }).then(res => res);
 
-        return data;
-    } catch (error) {
-        return error;
-    }
+    return res.data;
 };
 
 const post = async <T = any>(request: request) => {
-    try {
-        const { data } = await instance.request<ApiResponse<T>>({
-            method: 'POST',
-            url: request.url,
-            params: request.params,
-            data: request.data,
-            ...request.config
-        });
-        return data;
-    } catch (error) {
-        return error;
-    }
+    const res = await instance.request<T>({
+        method: 'POST',
+        url: request.url,
+        params: request.params,
+        data: request.data,
+        ...request.config
+    }).then(res => res);
+    return res.data;
 }
 
 const put = async <T = any>(request: request) => {
-    try {
-        const { data } = await instance.request<ApiResponse<T>>({
-            method: 'PUT',
-            url: request.url,
-            params: request.params,
-            data: request.data,
-            ...request.config
-        });
-        return data;
-    } catch (error) {
-        return error;
-    }
+    const res = await instance.request({
+        method: 'PUT',
+        url: request.url,
+        params: request.params,
+        data: request.data,
+        ...request.config
+    }).then(res => res);
+    return res.data;
+
 }
 
 
 const del = async <T = any>(request: request) => {
-    try {
-        const { data } = await instance.request<ApiResponse<T>>({
-            method: 'DELETE',
-            url: request.url,
-            params: request.params,
-            ...request.config
-        });
-        return data;
-    } catch (error) {
-        return error;
-    }
+    const res = await instance.request({
+        method: 'DELETE',
+        url: request.url,
+        params: request.params,
+        ...request.config
+    }).then(res => res);
+    return res.data;
 }
 
 

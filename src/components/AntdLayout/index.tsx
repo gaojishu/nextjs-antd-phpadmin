@@ -1,8 +1,6 @@
 'use client'
 import React, { useEffect } from 'react';
-import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
-import { store, persistor } from '@/store';
+
 import { Layout, Tabs } from 'antd';
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -17,7 +15,7 @@ export default ({ children }: React.PropsWithChildren) => {
     useEffect(() => {
         async function init() {
 
-            await authLogin({ username: 'admin', password: 'admin', captchaCode: '1234' });
+            //await authLogin({ username: 'admin', password: 'admin', captchaCode: '1234' });
 
         }
 
@@ -31,28 +29,25 @@ export default ({ children }: React.PropsWithChildren) => {
     }, []);
 
     return (
-        <Provider store={store}>
 
-            <PersistGate loading={null} persistor={persistor}>
-                <Layout className='w-screen h-screen'>
-                    {/* <RuntimeLayout /> */}
-                    <HeaderLayout />
-                    <Layout>
-                        <Sider className='h-full' width={'auto'}>
-                            <SiderLayout />
-                        </Sider>
-                        <Layout>
-                            <Content>
-                                <TabPage />
-                                <main className='p-2'>{children}</main>
-                            </Content>
-                            <Footer>
-                                <FooterLayout />
-                            </Footer>
-                        </Layout>
-                    </Layout>
+        <Layout className='w-screen h-screen'>
+            {/* <RuntimeLayout /> */}
+            <HeaderLayout />
+            <Layout>
+                <Sider className='h-full' width={'auto'}>
+                    <SiderLayout />
+                </Sider>
+                <Layout>
+                    <Content>
+                        <TabPage />
+                        <main className='p-2'>{children}</main>
+                    </Content>
+                    <Footer>
+                        <FooterLayout />
+                    </Footer>
                 </Layout>
-            </PersistGate>
-        </Provider>
+            </Layout>
+        </Layout>
+
     )
 }

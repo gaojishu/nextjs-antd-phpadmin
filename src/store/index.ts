@@ -4,15 +4,16 @@ import { persistStore, persistReducer } from 'redux-persist';
 import { combineReducers } from '@reduxjs/toolkit';
 // 假设 PersistConfig 已经被正确配置
 import { PersistConfig } from '@/config/persist.config';
-
-import AuthReducer from './reducers/AuthReducer';
+import authReducer from './reducers/AuthSlice';
+import { AuthLoginToken } from '@/types';
 
 
 // 不需要为 rootReducer 添加类型注解
 const rootReducer = combineReducers({
-    auth: AuthReducer,
+    auth: authReducer, // 将 aut
 });
-
+// 推断 RootState 类型
+export type RootState = ReturnType<typeof rootReducer>;
 // 确保 PersistConfig 是一个有效的配置对象
 const persistedReducer = persistReducer(PersistConfig, rootReducer);
 
@@ -25,6 +26,5 @@ export const store = configureStore({
 
 export const persistor = persistStore(store);
 
-// 从 store.getState 的返回值推断 RootState 类型
-export type RootState = ReturnType<typeof store.getState> & PersistPartial;
+
 export type AppDispatch = typeof store.dispatch;

@@ -1,8 +1,8 @@
 import http from "@/utils/http";
-import { AuthLogin } from "@/types";
+import type { ApiResponse, AuthLoginRequest, AuthLoginToken } from "@/types";
 
-export async function authLogin(data: AuthLogin) {
-    return await http.post<AuthLogin>({
+export async function authLogin(data: AuthLoginRequest) {
+    return await http.post<ApiResponse<AuthLoginToken>>({
         url: `/admin/auth/login`,
         params: {},
         data: data,
