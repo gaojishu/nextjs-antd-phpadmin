@@ -57,7 +57,7 @@ instance.interceptors.response.use(
         antdMessage.error(message);
 
         if (status === 401) {
-            // useRouterGlobal.push(`/login?redirect=${usePathnameGlobal}`);
+            useRouterGlobal.push(`/login?redirect=${usePathnameGlobal}`);
         }
 
         const reason: ApiResponse = {

@@ -6,7 +6,7 @@ import http from '@/utils/http';
 import { useRouter, usePathname } from 'next/navigation';
 import type { FormProps } from 'antd';
 import type { AuthLoginRequest } from '@/types';
-import { authLogin } from '@/api/auth';
+import { authLogin } from '@/services/auth';
 import { useDispatch } from 'react-redux';
 import { login } from '@/store/reducers/AuthSlice';
 

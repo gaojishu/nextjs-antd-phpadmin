@@ -8,7 +8,7 @@ import SiderLayout from './SiderLayout';
 import FooterLayout from './FooterLayout';
 import HeaderLayout from './HeaderLayout';
 import TabPage from './TabPage';
-import { authInfo, authLogin } from '@/api/auth';
+import { authInfo, authLogin } from '@/services';
 import RuntimeLayout from './RuntimeLayout';
 
 export default ({ children }: React.PropsWithChildren) => {
@@ -27,28 +27,27 @@ export default ({ children }: React.PropsWithChildren) => {
         getUserInfo();
         init();
     }, []);
-    export default function AntdLayout({ children }: React.PropsWithChildren) {
 
-        return (
+    return (
 
-            <Layout className='w-screen h-screen'>
-                {/* <RuntimeLayout /> */}
-                <HeaderLayout />
+        <Layout className='w-screen h-screen'>
+            {/* <RuntimeLayout /> */}
+            <HeaderLayout />
+            <Layout>
+                <Sider className='h-full' width={'auto'}>
+                    <SiderLayout />
+                </Sider>
                 <Layout>
-                    <Sider className='h-full' width={'auto'}>
-                        <SiderLayout />
-                    </Sider>
-                    <Layout>
-                        <Content>
-                            <TabPage />
-                            <main className='p-2'>{children}</main>
-                        </Content>
-                        <Footer>
-                            <FooterLayout />
-                        </Footer>
-                    </Layout>
+                    <Content>
+                        <TabPage />
+                        <main className='p-2'>{children}</main>
+                    </Content>
+                    <Footer>
+                        <FooterLayout />
+                    </Footer>
                 </Layout>
             </Layout>
+        </Layout>
 
-        )
-    }
+    )
+}
