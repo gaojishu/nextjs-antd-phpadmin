@@ -1,16 +1,16 @@
-import { PersistPartial } from 'redux-persist/es/persistReducer';
 import { configureStore } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
 import { combineReducers } from '@reduxjs/toolkit';
 // 假设 PersistConfig 已经被正确配置
 import { PersistConfig } from '@/config/persist.config';
-import authReducer from './reducers/AuthSlice';
-import { AuthLoginToken } from '@/types';
+import AuthLoginReducer from './reducers/AuthLoginSlice';
+import AuthInfoReducer from './reducers/AuthInfoSlice';
 
 
 // 不需要为 rootReducer 添加类型注解
 const rootReducer = combineReducers({
-    auth: authReducer, // 将 aut
+    authLoginState: AuthLoginReducer,
+    authInfoState: AuthInfoReducer,
 });
 // 推断 RootState 类型
 export type RootState = ReturnType<typeof rootReducer>;

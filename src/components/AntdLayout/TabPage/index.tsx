@@ -23,7 +23,7 @@ export default function TabPage() {
     // 只在组件首次加载时添加一次额外的 Tab
     useEffect(() => {
         const items = Array.from({ length: 2 }, (_, i) => {
-            const id = '/login?v='+Math.random().toString()
+            const id = '/login?v=' + Math.random().toString()
 
             return {
                 label: `Tab-${i}`,

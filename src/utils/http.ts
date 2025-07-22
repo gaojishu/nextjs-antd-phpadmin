@@ -21,7 +21,7 @@ instance.interceptors.request.use(config => {
     NProgress.start();
 
     config.withCredentials = true;
-    const auth = store.getState().auth;
+    const auth = store.getState().authLoginState;
     if (auth.token) {
         config.headers[auth.header] = `${auth.prefix} ${auth.token}`;
     }

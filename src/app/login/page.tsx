@@ -8,7 +8,7 @@ import type { FormProps } from 'antd';
 import type { AuthLoginRequest } from '@/types';
 import { authLogin } from '@/services/auth';
 import { useDispatch } from 'react-redux';
-import { login } from '@/store/reducers/AuthSlice';
+import { authLoginStateUpdate } from '@/store/reducers/AuthLoginSlice';
 
 type FieldType = AuthLoginRequest;
 
@@ -25,8 +25,9 @@ export default () => {
     };
     const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
         console.log('Success:', values);
-        const { data } = await authLogin(values);
-        dispatch(login(data));
+        const data = await authLogin(values);
+
+        dispatch(authLoginStateUpdate(data));
 
         router.push('/');
     };

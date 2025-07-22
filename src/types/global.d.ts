@@ -2,7 +2,7 @@ export interface ICommonRecord {
   readonly id: number | string;
   readonly createdAt: string;
   readonly updatedAt: string;
-  readonly deletedAt: string | null;
+  readonly deletedAt?: string | null;
 }
 
 export type ValueLabel = {

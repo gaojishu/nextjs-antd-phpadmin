@@ -56,9 +56,11 @@ export default function SiderLayout() {
 
             {/* 右侧 Ant Design 菜单 */}
             <div className="h-full bg-white flex-1">
-                <Menu mode="inline" defaultSelectedKeys={['4']} defaultOpenKeys={['4']} openKeys={['1']} theme="light" items={menuItems} onClick={({ key }) => {
+                <Menu mode="inline" defaultSelectedKeys={['4']} defaultOpenKeys={['4', '1']} theme="light" items={menuItems} onClick={({ key }) => {
                     useRouterGlobal.push(key);
-                }} />
+
+                }} >
+                </Menu>
             </div>
         </div>
     );
