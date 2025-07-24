@@ -1,34 +1,83 @@
 'use client';
-import { useRouterGlobal } from '@/components/GlobalProvider';
+import { buildMenuTree } from '@/services/auth/authService';
 import { Menu } from 'antd';
 import type { MenuProps } from 'antd';
-import { use, useState } from 'react';
+import { useState, useEffect } from 'react';
+import { store } from '@/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { addTabItem, setCurrentKey2 } from '@/store/reducers/TabPageSlice';
+import { useRouter, usePathname } from 'next/navigation';
 
+type MenuItem = Required<MenuProps>['items'][number];
 export default function SiderLayout() {
-    type MenuItem = Required<MenuProps>['items'][number];
+    const dispatch = useDispatch();
+    const router = useRouter();
+    const pathname = usePathname();
+    const currentKey2 = useSelector(state => store.getState().tabPageState.currentKey2);
+    const permission = useSelector(state => store.getState().authInfoState.permission ?? []);
 
-    const menuItems: MenuItem[] = [
-        {
-            key: '/auth',
-            label: 'Navigation One',
-        },
-        {
-            key: '/login?v=123',
-            label: 'Navigation Two',
-        },
-        {
-            key: '1',
-            label: 'Navigation Three',
-            children: [
-                { key: '4', label: 'Option 1' },
-                { key: '5', label: 'Option 2' },
-            ],
-        },
-    ];
+    const [menuList, setMenuList] = useState<MenuItem[]>([]);
 
-    const sidebarLabels = ['首页', '项目', '设置', '用户', '帮助', '日志', '系统'];
-
+    const [curMenuItems, setCurMenuItems] = useState<MenuItem[]>([]);
     const [cur, setCur] = useState<number>(0);
+
+
+    useEffect(() => {
+        //切换当前选中菜单项
+        const menu1Key = currentKey2[0] ?? '0';
+        const index = menuList.findIndex(item => item?.key === menu1Key);
+        setCur(index);
+
+        // 当前路由对应的菜单项
+        const item = permission.find(item => item.path === pathname);
+
+        // 设置当前选中的菜单项和标签页
+        dispatch(setCurrentKey2(item?.key.split('-') ?? []));
+
+        // 添加标签页
+        if (item) {
+            dispatch(addTabItem({
+                label: item.name,
+                key: item.id.toString(),
+            }));
+        }
+
+    }, [pathname, permission]);
+
+    // ✅ 用 useEffect 控制 curMenu 的更新
+    useEffect(() => {
+        const menuTree = buildMenuTree(permission);
+        setMenuList(menuTree);
+
+        if (menuTree[cur] && 'children' in menuTree[cur] && menuTree[cur].children) {
+            setCurMenuItems(menuTree[cur].children);
+        } else {
+            setCurMenuItems([]);
+        }
+
+    }, [cur, permission]); // ✅ 设置依赖项
+
+    /**
+     * 切换一级菜单
+     * @param index 
+     */
+    const handlerSwitchMenu1 = (index: number) => {
+        setCur(index);
+        if (permission[index].path) {
+            router.push(permission[index].path);
+        }
+    };
+
+    /**
+     * 切换二级菜单
+     * @param key 
+     */
+    const handlerSwitchMenu2 = (key: string) => {
+        const item = permission.find(item => item.id.toString() === key);
+        if (item?.path) {
+            router.push(item.path);
+        }
+    };
 
     return (
         <div className="flex h-full">
@@ -43,24 +92,30 @@ export default function SiderLayout() {
                 />
 
                 {/* 菜单项 */}
-                {sidebarLabels.map((label, index) => (
+                {menuList.map((item, index) => (
                     <div
                         key={index}
-                        onClick={() => setCur(index)}
+                        onClick={() => handlerSwitchMenu1(index)}
                         className="relative z-10 h-[60px] flex items-center justify-center text-center hover:bg-gray-500 shadow-md transition duration-300"
                     >
-                        {label}
+                        {item && 'label' in item && item.label}
                     </div>
                 ))}
             </div>
 
             {/* 右侧 Ant Design 菜单 */}
             <div className="h-full bg-white flex-1">
-                <Menu mode="inline" defaultSelectedKeys={['4']} defaultOpenKeys={['4', '1']} theme="light" items={menuItems} onClick={({ key }) => {
-                    useRouterGlobal.push(key);
-
-                }} >
-                </Menu>
+                <Menu mode="inline"
+                    defaultSelectedKeys={currentKey2}
+                    defaultOpenKeys={currentKey2}
+                    selectedKeys={currentKey2}
+                    onSelect={(key) => {
+                        console.log(key, 'onselect');
+                    }}
+                    theme="light"
+                    items={curMenuItems}
+                    onClick={({ key }) => handlerSwitchMenu2(key)}
+                />
             </div>
         </div>
     );

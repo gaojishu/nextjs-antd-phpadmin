@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect } from 'react';
 
-import { Layout, Tabs } from 'antd';
+import { Layout, Tabs, Watermark } from 'antd';
 const { Header, Footer, Sider, Content } = Layout;
 
 import SiderLayout from './SiderLayout';
@@ -13,23 +13,10 @@ import RuntimeLayout from './RuntimeLayout';
 
 export default ({ children }: React.PropsWithChildren) => {
     useEffect(() => {
-        async function init() {
-
-            //await authLogin({ username: 'admin', password: 'admin', captchaCode: '1234' });
-
-        }
-
-        async function getUserInfo() {
-            const res = await authInfo();
-            console.log(res);
-        }
-
-        getUserInfo();
-        init();
+        authInfo();
     }, []);
 
     return (
-
         <Layout className='w-screen h-screen'>
             {/* <RuntimeLayout /> */}
             <HeaderLayout />
@@ -38,9 +25,14 @@ export default ({ children }: React.PropsWithChildren) => {
                     <SiderLayout />
                 </Sider>
                 <Layout>
+
                     <Content>
                         <TabPage />
-                        <main className='p-2'>{children}</main>
+                        <main className='p-2'>
+                            <Watermark content="xkl">
+                                {children}
+                            </Watermark>
+                        </main>
                     </Content>
                     <Footer>
                         <FooterLayout />
@@ -48,6 +40,5 @@ export default ({ children }: React.PropsWithChildren) => {
                 </Layout>
             </Layout>
         </Layout>
-
     )
 }

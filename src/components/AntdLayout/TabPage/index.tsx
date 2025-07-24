@@ -1,72 +1,52 @@
 'use client'
 
-import { useRouterGlobal } from "@/components/GlobalProvider";
+import { useRouter, usePathname } from 'next/navigation';
 import { Button, Dropdown, Space, Tabs } from "antd";
 import type { MenuProps } from 'antd';
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useSelector } from 'react-redux';
+import { store } from '@/store';
+import { useDispatch } from 'react-redux';
+import { removeTabItem } from '@/store/reducers/TabPageSlice';
+
+type TargetKey = React.MouseEvent | React.KeyboardEvent | string;
+
 export default function TabPage() {
-    const items2: MenuProps['items'] = [
-        {
-            label: '关闭全部',
-            key: 'closeAll',
-        },
-    ];
+    const router = useRouter();
+    const pathname = usePathname();
+    const dispatch = useDispatch();
+    const currentKey2 = useSelector(state => store.getState().tabPageState.currentKey2);
+    const tabsItems = useSelector(state => store.getState().tabPageState.tabItems);
 
-    const [tabsItems, setTabsItems] = useState([
-        { label: '首页', key: '/', closable: false }
-    ]);
+    const handlerRemove = (targetKey: TargetKey) => {
+        //setTabsItems(prevItems => prevItems.filter(item => item.key !== targetKey));
+        dispatch(removeTabItem(targetKey.toString()));
+        router.back();
+    };
 
-
-
-
-    // 只在组件首次加载时添加一次额外的 Tab
-    useEffect(() => {
-        const items = Array.from({ length: 2 }, (_, i) => {
-            const id = '/login?v=' + Math.random().toString()
-
-            return {
-                label: `Tab-${i}`,
-                key: id,
-                closable: true,
-            };
-        })
-        setTabsItems(prev => [...prev, ...items]);
-    }, []); // 空依赖数组确保只执行一次
-
-    const handleMenuClick: MenuProps['onClick'] = (e) => {
-        if (e.key === 'closeAll') {
-            setTabsItems([])
+    const handlerSwitchTab = (targetKey: TargetKey) => {
+        const permission = store.getState().authInfoState.permission ?? [];
+        console.log(targetKey, 'targetKey');
+        const item = permission.find(item => item.id.toString() === targetKey);
+        console.log(item, 'targetKey');
+        // 切换标签页 跳转路由
+        if (item?.path) {
+            router.push(item.path);
         }
     };
-
-
-    type TargetKey = React.MouseEvent | React.KeyboardEvent | string;
-
-    const remove = (targetKey: TargetKey) => {
-        const newPanes = tabsItems.filter((pane) => pane.key !== targetKey);
-        setTabsItems(newPanes);
-    };
-
     return (
         <div className="w-full px-2 pt-2 bg-white">
-
-            <Dropdown menu={{ items: items2, onClick: handleMenuClick }} trigger={['contextMenu']}>
-                <Tabs
-                    type="editable-card"
-                    hideAdd={true}
-                    size="small"
-                    items={tabsItems}
-                    tabBarGutter={5}
-                    style={{ maxWidth: '100%' }} // 强制 Tabs 不超过其父容器的宽度
-                    onTabClick={(key: string, e) => {
-                        useRouterGlobal.push(key);
-                    }}
-                    onEdit={(targetKey, action) => {
-                        remove(targetKey)
-                    }}
-                />
-            </Dropdown>
+            <Tabs
+                type="editable-card"
+                activeKey={currentKey2[currentKey2.length - 1]}
+                hideAdd={true}
+                size="small"
+                items={tabsItems}
+                tabBarGutter={5}
+                style={{ maxWidth: '100%' }}
+                onTabClick={(key: string, e) => handlerSwitchTab(key)}
+                onEdit={(targetKey, action) => handlerRemove(targetKey)}
+            />
         </div>
     );
 }

@@ -1,6 +1,6 @@
 import http from "@/utils/http";
 import type { AdminRecord, ApiResponse, AuthLoginRequest, AuthLoginToken } from "@/types";
-import { buildPermissionRecordTree } from "./authService";
+import { setAuthInfoState } from "./authService";
 
 export async function authLogin(data: AuthLoginRequest) {
     const res = await http.post<ApiResponse<AuthLoginToken>>({
@@ -18,7 +18,7 @@ export async function authInfo() {
         params: {},
     });
 
-    buildPermissionRecordTree(res.data);
+    setAuthInfoState(res.data);
 
     return res.data;
 }

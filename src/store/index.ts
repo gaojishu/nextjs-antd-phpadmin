@@ -5,12 +5,14 @@ import { combineReducers } from '@reduxjs/toolkit';
 import { PersistConfig } from '@/config/persist.config';
 import AuthLoginReducer from './reducers/AuthLoginSlice';
 import AuthInfoReducer from './reducers/AuthInfoSlice';
+import TabPageReducer from './reducers/TabPageSlice';
 
 
 // 不需要为 rootReducer 添加类型注解
 const rootReducer = combineReducers({
     authLoginState: AuthLoginReducer,
     authInfoState: AuthInfoReducer,
+    tabPageState: TabPageReducer,
 });
 // 推断 RootState 类型
 export type RootState = ReturnType<typeof rootReducer>;
