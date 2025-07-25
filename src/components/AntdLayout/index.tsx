@@ -8,17 +8,17 @@ import SiderLayout from './SiderLayout';
 import FooterLayout from './FooterLayout';
 import HeaderLayout from './HeaderLayout';
 import TabPage from './TabPage';
-import { authInfo, authLogin } from '@/services';
+import { authInfo, authLogin, commonEnums } from '@/services';
 import RuntimeLayout from './RuntimeLayout';
 
 export default ({ children }: React.PropsWithChildren) => {
     useEffect(() => {
         authInfo();
+        commonEnums();
     }, []);
 
     return (
         <Layout className='w-screen h-screen'>
-            {/* <RuntimeLayout /> */}
             <HeaderLayout />
             <Layout>
                 <Sider className='h-full' width={'auto'}>

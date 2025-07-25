@@ -13,3 +13,19 @@ export interface PermissionRecord extends ICommonRecord {
     sort: number;
     children: PermissionRecord[];
 }
+
+export type PermissionCreate = Pick<PermissionRecord,
+    'name' | 'parentId' | 'remark' | 'icon' |
+    'path' | 'code' | 'sort'
+> & {
+    roleId: number[] | string[];
+    type: number | string;
+};
+
+export type PermissionUpdate = Pick<PermissionRecord,
+    'name' | 'parentId' | 'remark' | 'icon' |
+    'path' | 'code' | 'sort' | 'id'
+> & {
+    roleId: number[] | string[];
+    type: number | string;
+};
