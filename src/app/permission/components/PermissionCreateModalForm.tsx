@@ -13,10 +13,10 @@ import { useWatch } from 'antd/es/form/Form';
 import PermissionTypeRadio from './PermissionTypeRadio';
 import IconFont from '@/components/IconFont';
 
-export default ({
+export default function PermissionCreateModalForm({
     permissionTreeData,
     ...props
-}: ModalFormProps<PermissionCreate> & { permissionTreeData: PermissionRecord[] }) => {
+}: ModalFormProps<PermissionCreate> & { permissionTreeData: PermissionRecord[] }) {
     const [form] = Form.useForm<PermissionCreate>();
 
     // 使用 useWatch 监听 type 字段变化

@@ -6,7 +6,7 @@ import http from '@/utils/http';
 import { useRouter, usePathname } from 'next/navigation';
 
 
-export default () => {
+export default function Page() {
   const router = useRouter();
   const pathname = usePathname();
 

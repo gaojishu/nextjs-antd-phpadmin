@@ -13,7 +13,7 @@ import { authLoginStateUpdate } from '@/store/reducers/AuthLoginSlice';
 type FieldType = AuthLoginRequest;
 
 
-export default () => {
+export default function Page() {
     const router = useRouter();
     const pathname = usePathname();
     const dispatch = useDispatch();

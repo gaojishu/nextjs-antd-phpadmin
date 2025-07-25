@@ -9,7 +9,7 @@ import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import PermissionCreateModalForm from './components/PermissionCreateModalForm';
 import PermissionUpdateModalForm from './components/PermissionUpdateModalForm';
 
-export default () => {
+export default function Page() {
     const [permissionCreateModalFormOpen, setPermissionCreateModalFormOpen] = useState(false);
     const [permissionUpdateModalFormOpen, setPermissionUpdateModalFormOpen] = useState(false);
     const [permissionCreateFormData, setPermissionCreateFormData] = useState<PermissionCreate>({
@@ -158,7 +158,7 @@ export default () => {
                 }
                 search={false}
                 pagination={false}
-                rowKey="id"
+                rowKey="key"
                 toolBarRender={() => [
                     <Button onClick={() => handlerAdd()}>新增</Button>
                 ]}

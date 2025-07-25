@@ -5,8 +5,7 @@ import AntdLayout from '@/components/AntdLayout';
 import http from '@/utils/http';
 import { useRouter, usePathname } from 'next/navigation';
 
-
-export default () => {
+export default function Page(): React.ReactElement {
     const router = useRouter();
     const pathname = usePathname();
 

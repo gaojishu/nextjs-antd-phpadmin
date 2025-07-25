@@ -9,7 +9,7 @@ const IconFont = createFromIconfontCN({
 
 type IconFontProps = React.ComponentProps<typeof IconFont>;
 
-export default (props: IconFontProps) => {
+export default function Iconfont(props: IconFontProps) {
 
     return (
         <>

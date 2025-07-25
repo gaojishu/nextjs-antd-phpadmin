@@ -1,7 +1,7 @@
 'use client'
 import axios from 'axios';
 import type { AxiosRequestConfig, AxiosResponse } from 'axios';
-// @ts-ignore
+
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import { ApiResponse } from '@/types';
@@ -73,8 +73,10 @@ instance.interceptors.response.use(
     }
 );
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type request = { url: string, params?: any, data?: any, config?: AxiosRequestConfig }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const get = async <T = any>(request: request) => {
     const res = await instance.request({
         method: 'GET',
@@ -86,6 +88,7 @@ const get = async <T = any>(request: request) => {
     return res.data;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const post = async <T = any>(request: request) => {
     const res = await instance.request<T>({
         method: 'POST',
@@ -97,6 +100,7 @@ const post = async <T = any>(request: request) => {
     return res.data;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const put = async <T = any>(request: request) => {
     const res = await instance.request({
         method: 'PUT',
@@ -109,7 +113,7 @@ const put = async <T = any>(request: request) => {
 
 }
 
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const del = async <T = any>(request: request) => {
     const res = await instance.request({
         method: 'DELETE',

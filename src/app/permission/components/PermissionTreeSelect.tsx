@@ -14,10 +14,10 @@ type PermissionTreeSelectProps = TreeSelectProps & {
     permissionTreeData: PermissionRecord[];
 };
 
-export default ({
+export default function PermissionTreeSelect({
     permissionTreeData,
     ...props
-}: PermissionTreeSelectProps) => {
+}: PermissionTreeSelectProps) {
     const convertToTreeSelectData = (data: PermissionRecord[]): TreeSelectItem[] => {
         return data.map(item => ({
             title: item.name,

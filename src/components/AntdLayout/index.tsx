@@ -11,7 +11,7 @@ import TabPage from './TabPage';
 import { authInfo, authLogin, commonEnums } from '@/services';
 import RuntimeLayout from './RuntimeLayout';
 
-export default ({ children }: React.PropsWithChildren) => {
+export default function AntdLayout({ children }: React.PropsWithChildren) {
     useEffect(() => {
         authInfo();
         commonEnums();

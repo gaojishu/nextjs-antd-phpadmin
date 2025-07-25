@@ -5,9 +5,9 @@ import {
 import type { ProFormRadioGroupProps } from '@ant-design/pro-components';
 import { store } from '@/store';
 
-export default ({
+export default function PermissionTypeRadio({
     ...props
-}: ProFormRadioGroupProps) => {
+}: ProFormRadioGroupProps) {
     const permissionTypeOption = store.getState().commonEnumsState.permissionType;
     return (
         <ProFormRadio.Group

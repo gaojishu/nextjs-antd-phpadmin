@@ -10,6 +10,7 @@ export type ValueLabel = {
   label: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface ApiResponse<T = any> {
   success: boolean;
   httpStatus: number;

@@ -11,10 +11,10 @@ import PermissionTreeSelect from './PermissionTreeSelect';
 import { useWatch } from 'antd/es/form/Form';
 import PermissionTypeRadio from './PermissionTypeRadio';
 
-export default ({
+export default function PermissionUpdateModalForm({
     permissionTreeData,
     ...props
-}: ModalFormProps<PermissionUpdate> & { permissionTreeData: PermissionRecord[] }) => {
+}: ModalFormProps<PermissionUpdate> & { permissionTreeData: PermissionRecord[] }) {
     const [form] = Form.useForm<PermissionUpdate>();
 
     // 使用 useWatch 监听 type 字段变化
