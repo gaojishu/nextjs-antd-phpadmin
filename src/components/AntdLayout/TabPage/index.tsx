@@ -1,9 +1,7 @@
 'use client'
 
-import { useRouter, usePathname } from 'next/navigation';
-import { Button, Dropdown, Space, Tabs } from "antd";
-import type { MenuProps } from 'antd';
-import { useEffect, useState } from "react";
+import { useRouter } from 'next/navigation';
+import { Tabs } from "antd";
 import { useSelector } from 'react-redux';
 import { store } from '@/store';
 import { useDispatch } from 'react-redux';
@@ -13,10 +11,9 @@ type TargetKey = React.MouseEvent | React.KeyboardEvent | string;
 
 export default function TabPage() {
     const router = useRouter();
-    const pathname = usePathname();
     const dispatch = useDispatch();
-    const currentKey2 = useSelector(state => store.getState().tabPageState.currentKey2);
-    const tabsItems = useSelector(state => store.getState().tabPageState.tabItems);
+    const currentKey2 = useSelector(() => store.getState().tabPageState.currentKey2);
+    const tabsItems = useSelector(() => store.getState().tabPageState.tabItems);
 
     const handlerRemove = (targetKey: TargetKey) => {
         //setTabsItems(prevItems => prevItems.filter(item => item.key !== targetKey));
@@ -44,8 +41,8 @@ export default function TabPage() {
                 items={tabsItems}
                 tabBarGutter={5}
                 style={{ maxWidth: '100%' }}
-                onTabClick={(key: string, e) => handlerSwitchTab(key)}
-                onEdit={(targetKey, action) => handlerRemove(targetKey)}
+                onTabClick={(key: string) => handlerSwitchTab(key)}
+                onEdit={(targetKey) => handlerRemove(targetKey)}
             />
         </div>
     );

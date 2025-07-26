@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Button, Popconfirm, Space } from 'antd';
 import AntdLayout from '@/components/AntdLayout';
 import { permissionCreate, permissionDelete, permissionTree, permissionUpdate } from '@/services';
@@ -12,7 +12,7 @@ import PermissionUpdateModalForm from './components/PermissionUpdateModalForm';
 export default function Page() {
     const [permissionCreateModalFormOpen, setPermissionCreateModalFormOpen] = useState(false);
     const [permissionUpdateModalFormOpen, setPermissionUpdateModalFormOpen] = useState(false);
-    const [permissionCreateFormData, setPermissionCreateFormData] = useState<PermissionCreate>({
+    const permissionCreateFormData = {
         name: '',
         parentId: null,
         remark: '',
@@ -22,9 +22,11 @@ export default function Page() {
         type: 1,
         sort: 1,
         roleId: [],
-    });
+    }
+
+
     const [permissionUpdateFormData, setPermissionUpdateFormData] = useState<PermissionUpdate>();
-    const actionRef = useRef<ActionType>();
+    const actionRef = useRef<ActionType>(null);
 
     const [permissionTreeData, setPermissionTreeData] = useState<PermissionRecord[]>([]);
 
@@ -43,19 +45,19 @@ export default function Page() {
 
     const handlerDelete = async (id: number) => {
         await permissionDelete(id);
-        actionRef.current.reload();
+        actionRef?.current?.reload();
     };
 
     const handlerCreateSubmit = async (values: PermissionCreate) => {
         await permissionCreate(values);
-        actionRef.current.reload();
+        actionRef?.current?.reload();
         return true;
     };
 
     const handlerUpdateSubmit = async (values: PermissionUpdate) => {
 
         await permissionUpdate(values);
-        actionRef.current.reload();
+        actionRef?.current?.reload();
         return true;
     };
 
@@ -160,7 +162,7 @@ export default function Page() {
                 pagination={false}
                 rowKey="key"
                 toolBarRender={() => [
-                    <Button onClick={() => handlerAdd()}>新增</Button>
+                    <Button onClick={() => handlerAdd()} key="handlerAdd">新增</Button>
                 ]}
                 expandable={
                     {

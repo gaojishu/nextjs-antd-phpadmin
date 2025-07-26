@@ -10,7 +10,7 @@ const defaultMenuConfig: PermissionRecord = {
     icon: '',
     path: '/',
     code: '',
-    type: 0,
+    type: { value: 1, label: '首页' },
     sort: 0,
     children: [],
     createdAt: '',

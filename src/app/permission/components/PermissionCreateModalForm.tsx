@@ -4,15 +4,12 @@ import {
     ProForm,
     ProFormDigit,
     ProFormText,
-    ProFormTextArea,
 } from '@ant-design/pro-components';
 import type { ModalFormProps } from '@ant-design/pro-components';
 import { Col, Form, Row } from 'antd';
 import PermissionTreeSelect from './PermissionTreeSelect';
 import { useWatch } from 'antd/es/form/Form';
 import PermissionTypeRadio from './PermissionTypeRadio';
-import IconFont from '@/components/IconFont';
-
 export default function PermissionCreateModalForm({
     permissionTreeData,
     ...props

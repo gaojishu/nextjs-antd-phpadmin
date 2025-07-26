@@ -14,7 +14,7 @@ let modal: Omit<ModalStaticFunctions, 'warn'>;
 let useRouterGlobal: ReturnType<typeof useRouter>;;
 let usePathnameGlobal: string;
 
-export default () => {
+export default function GlobalProvider() {
     const staticFunction = App.useApp();
     message = staticFunction.message;
     modal = staticFunction.modal;

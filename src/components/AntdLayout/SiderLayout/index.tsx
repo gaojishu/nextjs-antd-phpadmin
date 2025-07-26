@@ -13,8 +13,8 @@ export default function SiderLayout() {
     const dispatch = useDispatch();
     const router = useRouter();
     const pathname = usePathname();
-    const currentKey2 = useSelector(state => store.getState().tabPageState.currentKey2);
-    const permission = useSelector(state => store.getState().authInfoState.permission ?? []);
+    const currentKey2 = useSelector(() => store.getState().tabPageState.currentKey2);
+    const permission = useSelector(() => store.getState().authInfoState.permission ?? []);
 
     const [menuList, setMenuList] = useState<MenuItem[]>([]);
 
@@ -42,7 +42,7 @@ export default function SiderLayout() {
             }));
         }
 
-    }, [pathname, permission]);
+    }, [currentKey2, dispatch, menuList, pathname, permission]);
 
     // ✅ 用 useEffect 控制 curMenu 的更新
     useEffect(() => {

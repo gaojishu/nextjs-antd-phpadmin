@@ -78,7 +78,7 @@ type request = { url: string, params?: any, data?: any, config?: AxiosRequestCon
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const get = async <T = any>(request: request) => {
-    const res = await instance.request({
+    const res = await instance.request<T>({
         method: 'GET',
         url: request.url,
         params: request.params,
@@ -102,7 +102,7 @@ const post = async <T = any>(request: request) => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const put = async <T = any>(request: request) => {
-    const res = await instance.request({
+    const res = await instance.request<T>({
         method: 'PUT',
         url: request.url,
         params: request.params,
@@ -115,7 +115,7 @@ const put = async <T = any>(request: request) => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const del = async <T = any>(request: request) => {
-    const res = await instance.request({
+    const res = await instance.request<T>({
         method: 'DELETE',
         url: request.url,
         params: request.params,

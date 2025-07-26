@@ -2,7 +2,7 @@ import type { ApiResponse, PermissionCreate, PermissionUpdate, PermissionRecord 
 import http from "@/utils/http";
 
 export async function permissionTree() {
-    const res = await http.get<ApiResponse<PermissionRecord>>({
+    const res = await http.get<ApiResponse<PermissionRecord[]>>({
         url: `/admin/permission/tree`,
         params: {},
     });

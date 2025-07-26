@@ -1,9 +1,7 @@
 'use client'
-import React, { useEffect, useState } from 'react';
-import { Button, Checkbox, Form, Input } from 'antd';
-import AntdLayout from '@/components/AntdLayout';
-import http from '@/utils/http';
-import { useRouter, usePathname } from 'next/navigation';
+import React from 'react';
+import { Button, Form, Input } from 'antd';
+import { useRouter } from 'next/navigation';
 import type { FormProps } from 'antd';
 import type { AuthLoginRequest } from '@/types';
 import { authLogin } from '@/services/auth';
@@ -15,7 +13,6 @@ type FieldType = AuthLoginRequest;
 
 export default function Page() {
     const router = useRouter();
-    const pathname = usePathname();
     const dispatch = useDispatch();
 
     const authLoginForm = {

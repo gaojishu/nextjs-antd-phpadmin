@@ -1,16 +1,14 @@
 'use client'
 import React, { useEffect } from 'react';
 
-import { Layout, Tabs, Watermark } from 'antd';
-const { Header, Footer, Sider, Content } = Layout;
+import { Layout, Watermark } from 'antd';
+const { Footer, Sider, Content } = Layout;
 
 import SiderLayout from './SiderLayout';
 import FooterLayout from './FooterLayout';
 import HeaderLayout from './HeaderLayout';
 import TabPage from './TabPage';
-import { authInfo, authLogin, commonEnums } from '@/services';
-import RuntimeLayout from './RuntimeLayout';
-
+import { authInfo, commonEnums } from '@/services';
 export default function AntdLayout({ children }: React.PropsWithChildren) {
     useEffect(() => {
         authInfo();
