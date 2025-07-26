@@ -42,7 +42,8 @@ export default function SiderLayout() {
             }));
         }
 
-    }, [currentKey2, dispatch, menuList, pathname, permission]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [pathname, permission]);
 
     // ✅ 用 useEffect 控制 curMenu 的更新
     useEffect(() => {
