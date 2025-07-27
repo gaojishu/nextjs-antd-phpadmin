@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { TreeSelect } from 'antd';
 import type { TreeSelectProps } from 'antd';
 import { PermissionRecord } from '@/types';
@@ -18,6 +18,12 @@ export default function PermissionTreeSelect({
     permissionTreeData,
     ...props
 }: PermissionTreeSelectProps) {
+    const [treeData, setTreeData] = useState<TreeSelectItem[]>([]);
+    useEffect(() => {
+        const tree = convertToTreeSelectData(permissionTreeData);
+        setTreeData(tree);
+    }, [permissionTreeData]);
+
     const convertToTreeSelectData = (data: PermissionRecord[]): TreeSelectItem[] => {
         return data.map(item => ({
             title: item.name,
@@ -26,14 +32,12 @@ export default function PermissionTreeSelect({
         }));
     };
 
-    const treeData = convertToTreeSelectData(permissionTreeData);
-
-
-
     return (
-        <TreeSelect
-            {...props}
-            treeData={treeData}
-        />
+        <>
+            <TreeSelect
+                {...props}
+                treeData={treeData}
+            />
+        </>
     );
 };

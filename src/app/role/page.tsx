@@ -81,6 +81,7 @@ export default function Page(): React.ReactElement {
                 <Row>
                     <Col span={4}>
                         <Tabs
+                            tabBarGutter={5}
                             activeKey={activeKey}
                             type="editable-card"
                             tabPosition="left"

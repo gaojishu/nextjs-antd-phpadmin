@@ -12,11 +12,11 @@ import PermissionUpdateModalForm from './components/PermissionUpdateModalForm';
 export default function Page() {
     const [permissionCreateModalFormOpen, setPermissionCreateModalFormOpen] = useState(false);
     const [permissionUpdateModalFormOpen, setPermissionUpdateModalFormOpen] = useState(false);
-    const permissionCreateFormData = {
+    const permissionInitFormData = {
         name: '',
         parentId: null,
-        remark: '',
-        icon: '',
+        remark: null,
+        icon: null,
         path: '',
         code: '',
         type: 1,
@@ -24,9 +24,11 @@ export default function Page() {
         roleId: [],
     }
 
-
+    const [permissionCreateFormData, setPermissionCreateFormData] = useState<PermissionCreate>({
+        ...permissionInitFormData,
+    });
     const [permissionUpdateFormData, setPermissionUpdateFormData] = useState<PermissionUpdate>({
-        ...permissionCreateFormData,
+        ...permissionInitFormData,
         id: 0
     });
 
@@ -43,7 +45,12 @@ export default function Page() {
         setPermissionUpdateModalFormOpen(true);
     };
 
-    const handlerAdd = () => {
+    const handlerAdd = (record?: PermissionRecord) => {
+
+        setPermissionCreateFormData({
+            ...permissionInitFormData,
+            parentId: record?.id ? Number(record?.id) : null,
+        });
         setPermissionCreateModalFormOpen(true);
     };
 
@@ -112,6 +119,9 @@ export default function Page() {
             dataIndex: 'action',
             render: (_, record) => (
                 <Space>
+                    <Button type="link" onClick={() => handlerAdd(record)}>
+                        新增子项
+                    </Button>
                     <Button type="link" onClick={() => handlerEdit(record)}>
                         编辑
                     </Button>
