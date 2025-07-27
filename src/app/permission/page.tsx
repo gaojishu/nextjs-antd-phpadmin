@@ -25,7 +25,11 @@ export default function Page() {
     }
 
 
-    const [permissionUpdateFormData, setPermissionUpdateFormData] = useState<PermissionUpdate>();
+    const [permissionUpdateFormData, setPermissionUpdateFormData] = useState<PermissionUpdate>({
+        ...permissionCreateFormData,
+        id: 0
+    });
+
     const actionRef = useRef<ActionType>(null);
 
     const [permissionTreeData, setPermissionTreeData] = useState<PermissionRecord[]>([]);
@@ -55,8 +59,7 @@ export default function Page() {
     };
 
     const handlerUpdateSubmit = async (values: PermissionUpdate) => {
-
-        await permissionUpdate(values);
+        await permissionUpdate(values.id, values);
         actionRef?.current?.reload();
         return true;
     };
@@ -129,7 +132,7 @@ export default function Page() {
             <PermissionCreateModalForm
                 title='新增权限'
                 key={'create'}
-                initialValues={permissionCreateFormData}
+                permissionFormData={permissionCreateFormData}
                 open={permissionCreateModalFormOpen}
                 onOpenChange={setPermissionCreateModalFormOpen}
                 onFinish={(values) => handlerCreateSubmit(values)}
@@ -137,8 +140,8 @@ export default function Page() {
             />
             <PermissionUpdateModalForm
                 title={permissionUpdateFormData?.id ? '编辑权限' : '新增权限'}
-                key={permissionUpdateFormData?.id + 'update'}
-                initialValues={permissionUpdateFormData}
+                key={permissionUpdateFormData + 'update'}
+                permissionFormData={permissionUpdateFormData}
                 open={permissionUpdateModalFormOpen}
                 onOpenChange={setPermissionUpdateModalFormOpen}
                 onFinish={(values) => handlerUpdateSubmit(values)}

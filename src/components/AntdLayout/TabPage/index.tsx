@@ -23,14 +23,15 @@ export default function TabPage() {
 
     const handlerSwitchTab = (targetKey: TargetKey) => {
         const permission = store.getState().authInfoState.permission ?? [];
-        console.log(targetKey, 'targetKey');
+
         const item = permission.find(item => item.id.toString() === targetKey);
-        console.log(item, 'targetKey');
+
         // 切换标签页 跳转路由
         if (item?.path) {
             router.push(item.path);
         }
     };
+
     return (
         <div className="w-full px-2 pt-2 bg-white">
             <Tabs

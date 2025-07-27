@@ -10,11 +10,24 @@ import { Col, Form, Row } from 'antd';
 import PermissionTreeSelect from './PermissionTreeSelect';
 import { useWatch } from 'antd/es/form/Form';
 import PermissionTypeRadio from './PermissionTypeRadio';
+import { useEffect } from 'react';
+
+type PermissionModalFormProps = ModalFormProps<PermissionCreate> &
+{ permissionTreeData: PermissionRecord[] } &
+{ permissionFormData: PermissionCreate };
+
 export default function PermissionCreateModalForm({
     permissionTreeData,
+    permissionFormData,
     ...props
-}: ModalFormProps<PermissionCreate> & { permissionTreeData: PermissionRecord[] }) {
+}: PermissionModalFormProps) {
     const [form] = Form.useForm<PermissionCreate>();
+
+    useEffect(() => {
+        form.setFieldsValue({
+            ...permissionFormData
+        });
+    }, [permissionFormData, form]);
 
     // 使用 useWatch 监听 type 字段变化
     const type = useWatch('type', form);

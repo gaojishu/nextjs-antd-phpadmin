@@ -19,3 +19,5 @@ export interface ApiResponse<T = any> {
   data: T;
   reqId: string;
 }
+
+type TabsTargetKey = React.MouseEvent | React.KeyboardEvent | string | undefined;

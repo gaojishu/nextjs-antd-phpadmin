@@ -11,7 +11,7 @@ export async function permissionTree() {
 }
 
 export async function permissionCreate(data: PermissionCreate) {
-    const res = await http.post<ApiResponse<PermissionRecord>>({
+    const res = await http.post<ApiResponse<null>>({
         url: `/admin/permission/create`,
         params: {},
         data: data,
@@ -20,9 +20,9 @@ export async function permissionCreate(data: PermissionCreate) {
     return res.data;
 }
 
-export async function permissionUpdate(data: PermissionUpdate) {
-    const res = await http.post<ApiResponse<PermissionRecord>>({
-        url: `/admin/permission/update`,
+export async function permissionUpdate(id: number | string, data: PermissionUpdate) {
+    const res = await http.post<ApiResponse<null>>({
+        url: `/admin/permission/update/${id}`,
         params: {},
         data: data,
     });
