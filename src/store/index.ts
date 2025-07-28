@@ -5,6 +5,7 @@ import { combineReducers } from '@reduxjs/toolkit';
 import { PersistConfig } from '@/config/persist.config';
 import AuthLoginReducer from './reducers/AuthLoginSlice';
 import AuthInfoReducer from './reducers/AuthInfoSlice';
+import AuthPermissionReducer from './reducers/AuthPermissionSlice';
 import TabPageReducer from './reducers/TabPageSlice';
 import CommonEnumsReducer from './reducers/CommonEnumsSlice';
 
@@ -13,8 +14,9 @@ import CommonEnumsReducer from './reducers/CommonEnumsSlice';
 const rootReducer = combineReducers({
     authLoginState: AuthLoginReducer,
     authInfoState: AuthInfoReducer,
+    authPermissionState: AuthPermissionReducer,
     tabPageState: TabPageReducer,
-    commonEnumsState: CommonEnumsReducer
+    commonEnumsState: CommonEnumsReducer,
 });
 // 推断 RootState 类型
 export type RootState = ReturnType<typeof rootReducer>;

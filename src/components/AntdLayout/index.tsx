@@ -8,10 +8,11 @@ import SiderLayout from './SiderLayout';
 import FooterLayout from './FooterLayout';
 import HeaderLayout from './HeaderLayout';
 import TabPage from './TabPage';
-import { authInfo, commonEnums } from '@/services';
+import { authInfo, authPermission, commonEnums } from '@/services';
 export default function AntdLayout({ children }: React.PropsWithChildren) {
     useEffect(() => {
         authInfo();
+        authPermission();
         commonEnums();
     }, []);
 

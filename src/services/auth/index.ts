@@ -1,6 +1,6 @@
 import http from "@/utils/http";
-import type { AdminRecord, ApiResponse, AuthLoginRequest, AuthLoginToken } from "@/types";
-import { setAuthInfoState } from "./authService";
+import type { AdminRecord, ApiResponse, AuthLoginRequest, AuthLoginToken, PermissionRecord } from "@/types";
+import { setAuthInfoState, setAuthPermissionState } from "./authService";
 
 export async function authLogin(data: AuthLoginRequest) {
     const res = await http.post<ApiResponse<AuthLoginToken>>({
@@ -20,5 +20,15 @@ export async function authInfo() {
 
     setAuthInfoState(res.data);
 
+    return res.data;
+}
+
+export async function authPermission() {
+    const res = await http.get<ApiResponse<PermissionRecord[]>>({
+        url: `/admin/auth/permission`,
+        params: {},
+    });
+
+    setAuthPermissionState(res.data);
     return res.data;
 }

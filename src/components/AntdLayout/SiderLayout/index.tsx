@@ -7,6 +7,7 @@ import { store } from '@/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { addTabItem, setCurrentKey2 } from '@/store/reducers/TabPageSlice';
 import { useRouter, usePathname } from 'next/navigation';
+import AntdThemeConfig from '@/config/theme.config';
 
 type MenuItem = Required<MenuProps>['items'][number];
 export default function SiderLayout() {
@@ -14,18 +15,25 @@ export default function SiderLayout() {
     const router = useRouter();
     const pathname = usePathname();
     const currentKey2 = useSelector(() => store.getState().tabPageState.currentKey2);
-    const permission = useSelector(() => store.getState().authInfoState.permission ?? []);
+    const permission = useSelector(() => store.getState().authPermissionState.permission ?? []);
 
-    const [menuList, setMenuList] = useState<MenuItem[]>([]);
+    const [menuTreeAll, setMenuTreeAll] = useState<MenuItem[]>([]);
 
-    const [curMenuItems, setCurMenuItems] = useState<MenuItem[]>([]);
+    const [menuTree2, setMenuTree2] = useState<MenuItem[]>([]);
     const [cur, setCur] = useState<number>(0);
 
+    // permission 权限列表更新监听
+    useEffect(() => {
+        const menuTree = buildMenuTree(permission);
+        setMenuTreeAll(menuTree);
+    }, [permission]); // ✅ 设置依赖项
 
+
+    //路由更新监听  维护页面标签
     useEffect(() => {
         //切换当前选中菜单项
         const menu1Key = currentKey2[0] ?? '0';
-        const index = menuList.findIndex(item => item?.key === menu1Key);
+        const index = menuTreeAll.findIndex(item => item?.key === menu1Key);
         setCur(index);
 
         // 当前路由对应的菜单项
@@ -41,22 +49,36 @@ export default function SiderLayout() {
                 key: item.id.toString(),
             }));
         }
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pathname, permission]);
 
-    // ✅ 用 useEffect 控制 curMenu 的更新
+
+    //一级菜单选中 设置对应的二级菜单
     useEffect(() => {
-        const menuTree = buildMenuTree(permission);
-        setMenuList(menuTree);
-
-        if (menuTree[cur] && 'children' in menuTree[cur] && menuTree[cur].children) {
-            setCurMenuItems(menuTree[cur].children);
+        if (menuTreeAll[cur] && 'children' in menuTreeAll[cur] && menuTreeAll[cur].children) {
+            setMenuTree2(menuTreeAll[cur].children);
         } else {
-            setCurMenuItems([]);
+            setMenuTree2([]);
         }
+    }, [cur, menuTreeAll]);
 
-    }, [cur, permission]); // ✅ 设置依赖项
+    //一级菜单选中 路由到对应的菜单
+    useEffect(() => {
+        if (menuTreeAll[cur]?.key !== undefined && currentKey2.includes(String(menuTreeAll[cur].key))) {
+            return;
+        }
+        menuTree2.some((item) => {
+            const defaultMenu = permission.find((permissionItem) => {
+                return permissionItem.id.toString() === item?.key && permissionItem.path;
+            });
+
+            if (defaultMenu?.path) {
+                router.push(defaultMenu.path.toString());
+                return true;
+            }
+            return false;
+        });
+    }, [menuTree2]);
+
 
     /**
      * 切换一级菜单
@@ -86,14 +108,15 @@ export default function SiderLayout() {
             <div className={`h-full w-17 bg-[#001529] text-white cursor-pointer relative`}>
                 {/* 高亮条 */}
                 <div
-                    className="absolute left-0 top-0 h-[60px] w-full bg-cyan-600 transition duration-800 ease-in-out pointer-events-none z-0"
+                    className={`absolute left-0 top-0 h-[60px] w-full  transition duration-800 ease-in-out pointer-events-none z-0`}
                     style={{
+                        backgroundColor: AntdThemeConfig?.token?.colorPrimary,
                         transform: `translateY(${cur * 60}px)`,
                     }}
                 />
 
                 {/* 菜单项 */}
-                {menuList.map((item, index) => (
+                {menuTreeAll.map((item, index) => (
                     <div
                         key={index}
                         onClick={() => handlerSwitchMenu1(index)}
@@ -114,7 +137,7 @@ export default function SiderLayout() {
                         console.log(key, 'onselect');
                     }}
                     theme="light"
-                    items={curMenuItems}
+                    items={menuTree2}
                     onClick={({ key }) => handlerSwitchMenu2(key)}
                 />
             </div>

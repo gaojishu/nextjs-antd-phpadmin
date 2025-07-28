@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { AdminRecord } from '@/types';
 
-type adminRecordExtra = AdminRecord & { permissionCode: string[] }
+type adminRecordExtra = AdminRecord
 
 const initialState: adminRecordExtra = {
     id: 0,
@@ -11,11 +11,10 @@ const initialState: adminRecordExtra = {
     email: '',
     password: '',
     disabledStatus: { value: '', label: '' },
-    permission: [],
+    permission: null,
     createdAt: '',
     updatedAt: '',
     deletedAt: '',
-    permissionCode: []
 };
 
 const AuthInfoSlice = createSlice({

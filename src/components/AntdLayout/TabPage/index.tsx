@@ -17,8 +17,11 @@ export default function TabPage() {
 
     const handlerRemove = (targetKey: TargetKey) => {
         //setTabsItems(prevItems => prevItems.filter(item => item.key !== targetKey));
+
         dispatch(removeTabItem(targetKey.toString()));
-        router.back();
+        if (currentKey2.includes(targetKey.toString())) {
+            router.back();
+        }
     };
 
     const handlerSwitchTab = (targetKey: TargetKey) => {

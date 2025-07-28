@@ -1,6 +1,7 @@
 import { AdminRecord, PermissionRecord } from "@/types";
 import { store } from "@/store";
 import { authInfoStateUpdate } from "@/store/reducers/AuthInfoSlice";
+import { authPermissionStateUpdate } from "@/store/reducers/AuthPermissionSlice";
 import type { MenuProps } from "antd";
 import defaultMenuConfig from "@/config/defaultMenu.config";
 
@@ -57,8 +58,7 @@ export function buildPermissionRecordTree(permissions: PermissionRecord[]): Perm
     return tree;
 }
 
-export function setAuthInfoState(adminRecord: AdminRecord): string[] {
-    const permissions = adminRecord.permission ?? [];
+export function setAuthPermissionState(permissions: PermissionRecord[]) {
 
     permissions.unshift(defaultMenuConfig)
 
@@ -69,7 +69,12 @@ export function setAuthInfoState(adminRecord: AdminRecord): string[] {
         }
     });
 
-    store.dispatch(authInfoStateUpdate({ ...adminRecord, permissionCode }));
+    store.dispatch(authPermissionStateUpdate({
+        permission: permissions,
+        permissionCode: permissionCode
+    }));
+}
 
-    return permissionCode;
+export function setAuthInfoState(adminRecord: AdminRecord) {
+    store.dispatch(authInfoStateUpdate({ ...adminRecord }));
 }
