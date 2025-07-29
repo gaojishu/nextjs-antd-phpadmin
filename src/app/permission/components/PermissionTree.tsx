@@ -1,29 +1,43 @@
 import React, { useEffect, useState } from 'react';
 import { Tree } from 'antd';
 import type { TreeDataNode, TreeProps } from 'antd';
-import { PermissionRecord } from '@/types';
-import { permissionTree } from '@/services';
+import { PermissionRecord, RoleRecord } from '@/types';
+import { permissionTree, roleRecords } from '@/services';
+import { ProFormSelect } from '@ant-design/pro-components';
 
-type PermissionTreeProps = TreeProps;
+type PermissionTreeProps = TreeProps & {
+    selectRole: boolean;
+    onSearchRole: (role: RoleRecord) => void;
+};
 
 export default function PermissionTree({
+    selectRole,
+    onSearchRole,
     ...props
 }: PermissionTreeProps) {
 
     const [permissionTreeData, setPermissionTreeData] = useState<TreeDataNode[]>([]);
 
+    const [roleRecordsData, setRoleRecordsData] = useState<RoleRecord[]>([]);
 
-    const fatchPermissionTree = async () => {
+    useEffect(() => {
+        fetchPermissionTree();
+        if (selectRole) {
+            fetchRoleRecords();
+        }
+    }, [selectRole]);
+
+    const fetchRoleRecords = async () => {
+        const data = await roleRecords();
+        setRoleRecordsData(data);
+    };
+
+    const fetchPermissionTree = async () => {
         const data = await permissionTree();
         const treeData = convertToTreetData(data);
 
         setPermissionTreeData(treeData);
     };
-
-
-    useEffect(() => {
-        fatchPermissionTree();
-    }, []);
 
     const convertToTreetData = (data: PermissionRecord[]): TreeDataNode[] => {
         return data.map(item => ({
@@ -35,6 +49,24 @@ export default function PermissionTree({
 
     return (
         <>
+            {
+                selectRole && roleRecordsData.length > 0 &&
+                <ProFormSelect
+                    request={async () => {
+                        return roleRecordsData.map(item => ({
+                            value: item.id,
+                            label: item.name,
+                        }));
+                    }}
+                    placeholder="请选择权限模板"
+                    onChange={(value) => {
+                        const role = roleRecordsData.find(item => item.id === value);
+                        if (role) {
+                            onSearchRole(role);
+                        }
+                    }}
+                />
+            }
             {
                 permissionTreeData.length > 0 &&
                 <Tree
