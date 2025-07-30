@@ -6,8 +6,8 @@ import { permissionTree, roleRecords } from '@/services';
 import { ProFormSelect } from '@ant-design/pro-components';
 
 type PermissionTreeProps = TreeProps & {
-    selectRole: boolean;
-    onSearchRole: (role: RoleRecord) => void;
+    selectRole?: boolean;
+    onSearchRole?: (role: RoleRecord) => void;
 };
 
 export default function PermissionTree({

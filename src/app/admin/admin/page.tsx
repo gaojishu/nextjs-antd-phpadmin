@@ -1,8 +1,8 @@
 'use client'
 import React, { useRef, useState } from 'react';
-import { Button, Popconfirm, Space } from 'antd';
+import { Button, Space } from 'antd';
 import AntdLayout from '@/components/AntdLayout';
-import { adminCreate, adminDelete, adminPage, adminUpdate } from '@/services';
+import { adminCreate, adminPage, adminUpdate } from '@/services';
 import { type ProColumns, type ActionType, ProTable } from '@ant-design/pro-components';
 import type { AdminCreate, AdminRecord, AdminUpdate } from '@/types';
 import DateRange from '@/components/DateRange';
@@ -103,7 +103,7 @@ export default function Page(): React.ReactElement {
         setAdminUpdateModalFormOpen(true);
     };
 
-    const handlerAdd = (record?: AdminRecord) => {
+    const handlerAdd = () => {
 
         setPermissionCreateFormData({
             ...adminInitFormData
@@ -117,8 +117,6 @@ export default function Page(): React.ReactElement {
     // };
 
     const handlerCreateSubmit = async (values: AdminCreate) => {
-        console.log(values)
-        return
         await adminCreate(values);
         actionRef?.current?.reload();
         return true;

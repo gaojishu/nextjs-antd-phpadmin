@@ -1,4 +1,4 @@
-import PermissionTree from '@/app/permission/components/PermissionTree';
+import PermissionTree from '@/app/admin/permission/components/PermissionTree';
 import type { RoleStore } from '@/types';
 import {
     ProForm,
@@ -30,6 +30,10 @@ export default function RoleForm({
 
     // 重置不能触发  需要手动处理
     const handleReset = () => {
+        form.setFieldsValue({
+            ...roleFormData,
+            permissionKey: roleFormData?.permissionKey
+        });
         setDefaultCheckedKeys(roleFormData.permissionKey);
     }
 

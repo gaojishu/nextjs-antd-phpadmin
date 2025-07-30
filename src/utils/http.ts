@@ -97,6 +97,7 @@ const post = async <T = any>(request: request) => {
         data: request.data,
         ...request.config
     }).then(res => res);
+
     return res.data;
 }
 

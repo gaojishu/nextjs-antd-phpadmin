@@ -25,7 +25,7 @@ export default function TabPage() {
     };
 
     const handlerSwitchTab = (targetKey: TargetKey) => {
-        const permission = store.getState().authInfoState.permission ?? [];
+        const permission = store.getState().authPermissionState.permission ?? [];
 
         const item = permission.find(item => item.id.toString() === targetKey);
 

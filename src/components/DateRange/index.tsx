@@ -10,8 +10,8 @@ export default function DateRange({
 }: TimeRangePickerProps) {
 
     const rangePresets: TimeRangePickerProps['presets'] = [
-        { label: '今日', value: [dayjs(), dayjs()] },
-        { label: '昨日', value: [dayjs().add(-1, 'd'), dayjs().add(-1, 'd')] },
+        { label: '今日', value: [dayjs().startOf('day'), dayjs().endOf('day')] },
+        { label: '昨日', value: [dayjs().add(-1, 'd').startOf('day'), dayjs().add(-1, 'd').endOf('day')] },
         { label: '本周', value: [dayjs().startOf('week'), dayjs().endOf('week')] },
         { label: '上周', value: [dayjs().subtract(1, 'week').startOf('week'), dayjs().subtract(1, 'week').endOf('week')] },
         { label: '本月', value: [dayjs().startOf('month'), dayjs().endOf('month')] },

@@ -9,7 +9,7 @@ import { Col, Form, Row } from 'antd';
 import AdminDisabledStatusRadio from './AdminDisabledStatusRadio';
 import { useEffect, useState } from 'react';
 import { useWatch } from 'antd/es/form/Form';
-import PermissionTree from '@/app/permission/components/PermissionTree';
+import PermissionTree from '@/app/admin/permission/components/PermissionTree';
 
 type AdminModalFormProps = ModalFormProps<AdminCreate> &
 { adminFormData: AdminCreate };

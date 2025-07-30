@@ -63,6 +63,9 @@ export default function Page(): React.ReactElement {
         if (action === 'remove') {
             setRoleId(Number(targetKey));
         }
+        if (action === 'add') {
+            setRoleFormData(initialValues);
+        }
     }
 
     const handlerSwitchTab = (key: string) => {
@@ -103,7 +106,6 @@ export default function Page(): React.ReactElement {
                     <Col span={20}>
                         <Card title={roleFormData.id ? "编辑模板" : "新增模板"}>
                             <RoleForm
-                                initialValues={roleFormData}
                                 onFinish={(values) => handlerSubmit(values)}
                                 roleFormData={roleFormData}
                             />
