@@ -4,6 +4,7 @@ import { AntdRegistry } from '@ant-design/nextjs-registry';
 import { ConfigProvider, App } from 'antd';
 import AntdThemeConfig from "@/config/theme.config";
 import GlobalProvider from '@/components/GlobalProvider';
+import locale from 'antd/locale/zh_CN';
 
 import "./globals.css";
 import ReduxProvider from "@/components/ReduxProvider";
@@ -33,7 +34,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ReduxProvider>
-          <ConfigProvider theme={AntdThemeConfig}>
+          <ConfigProvider theme={AntdThemeConfig} locale={locale}>
             <App message={{ maxCount: 1, duration: 3 }}>
               <GlobalProvider />
               <AntdRegistry>

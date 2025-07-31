@@ -4,7 +4,8 @@ import type { CommonEnums } from '@/types';
 
 const initialState: CommonEnums = {
     permissionType: [],
-    adminDisabledStatus: []
+    adminDisabledStatus: [],
+    filesType: []
 };
 
 const CommonEnumsSlice = createSlice({
