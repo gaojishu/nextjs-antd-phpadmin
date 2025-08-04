@@ -1,5 +1,5 @@
 import { ProForm } from "@ant-design/pro-components";
-import { Button, Col, FormProps, Row, Select } from "antd";
+import { Button, Col, Form, FormProps, Row, Select } from "antd";
 import { useEffect, useState } from "react";
 import FilesTypeRadio from "./FilesTypeRadio";
 import DateRange from "../DateRange";
@@ -8,17 +8,25 @@ import { filesCategoryRecords } from "@/services/filesCategory";
 import { FilesCategoryRecord } from "@/types";
 
 
+// type FilesSearchFormProps = {
+//     props: FormProps;
+//     filesPageParams: FilesPageParams;
+//     setFilesPageParams: (filesPageParams: FilesPageParams) => void;
+// }
 
 export default function FilesSearchForm(props: FormProps) {
-
+    const [form] = Form.useForm();
     const [filesCategoryRecordsData, setFilesCategoryRecordsData] = useState<FilesCategoryRecord[]>([]);
     const [filesCategoryModalOpenState, setFilesCategoryModalOpenState] = useState<boolean>(false);
+
 
     useEffect(() => {
         filesCategoryRecords().then((res) => {
             setFilesCategoryRecordsData(res);
         });
     }, []);
+
+
 
     return (
         <>
@@ -28,24 +36,19 @@ export default function FilesSearchForm(props: FormProps) {
             />
             <ProForm
                 {...props}
+                form={form}
                 layout="horizontal"
-                onFinish={(values) => console.log(values)}
                 submitter={{
                     render: () => {
                         return [
-                            <Button key="reset" htmlType="reset">
-                                重置
-                            </Button>,
-                            <Button key="submit" htmlType="submit" type="primary">
-                                查询
-                            </Button>,
+
                         ]
                     }
                 }}
             >
                 <Row gutter={16}>
                     <Col span={12}>
-                        <ProForm.Item name="cid" label="文件分类">
+                        <ProForm.Item name="categoryId" label="分类">
                             <Select
                                 placeholder="请选择"
                                 style={{ width: '100%' }}
@@ -67,7 +70,7 @@ export default function FilesSearchForm(props: FormProps) {
                     <Col span={12}>
                         <FilesTypeRadio
                             name="type"
-                            label="文件类型"
+                            label="类型"
                             radioType="button"
                         />
                     </Col>

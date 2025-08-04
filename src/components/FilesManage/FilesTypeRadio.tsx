@@ -8,7 +8,14 @@ import { store } from '@/store';
 export default function FilesTypeRadio({
     ...props
 }: ProFormRadioGroupProps) {
-    const options = store.getState().commonEnumsState.filesType;
+    const optionsState = store.getState().commonEnumsState.filesType;
+
+    const options = [
+        { label: '全部', value: undefined },
+        ...optionsState
+    ]
+
+
     return (
         <ProFormRadio.Group
             options={options}

@@ -26,7 +26,7 @@ export default function HeaderLayout() {
                         </div>
                         <div>
                             <Space>
-                                <FilesManage button="" />
+                                <FilesManage count={9} isForm={false} />
                                 <Button>消息</Button>
                                 <Button>右侧功能区</Button>
                             </Space>

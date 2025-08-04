@@ -10,6 +10,6 @@ export type FilesCategoryOrder = {
     id: SortOrder;
 }
 
-export type FilesCategoryStore = Pick<AdminRecord,
+export type FilesCategoryStore = Pick<FilesCategoryRecord,
     'name' | 'remark' | 'id'
 >

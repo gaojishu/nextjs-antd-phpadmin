@@ -6,3 +6,6 @@ export * from './common';
 export * from './role';
 export * from './admin.action';
 export * from './files.category';
+export * from './files';
+export * from './oss';
+export * from './actuator';

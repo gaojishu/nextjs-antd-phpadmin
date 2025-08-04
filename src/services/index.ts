@@ -4,3 +4,5 @@ export * from './common';
 export * from './role';
 export * from './admin';
 export * from './adminAction';
+export * from './files';
+export * from './actuator';
