@@ -34,7 +34,7 @@ export default function SiderLayout() {
         //切换当前选中菜单项
         const menu1Key = currentKey2[0] ?? '0';
         const index = menuTreeAll.findIndex(item => item?.key === menu1Key);
-        setCur(index);
+        setCur(Math.max(0, index));
 
         // 当前路由对应的菜单项
         const item = permission.find(item => item.path === pathname);
@@ -43,10 +43,10 @@ export default function SiderLayout() {
         dispatch(setCurrentKey2(item?.key.split('-') ?? []));
 
         // 添加标签页
-        if (item) {
+        if (item && item?.path !== '/') {
             dispatch(addTabItem({
                 label: item.name,
-                key: item.id.toString(),
+                key: item.path || '',
             }));
         }
     }, [pathname, permission]);

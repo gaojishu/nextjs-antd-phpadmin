@@ -11,7 +11,7 @@ type FilesListProps = {
     setFilesPageParams: (filesPageParams: FilesPageParams) => void;
     count?: number,
     selectFilesKey: string[],
-    setSelectFilesKey: (selectFilesKey: string[]) => void,
+    setSelectFilesKey: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 export default function FilesList({

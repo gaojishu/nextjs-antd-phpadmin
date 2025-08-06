@@ -1,11 +1,13 @@
 import defaultMenuConfig from '@/config/defaultMenu.config';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import dayjs from 'dayjs';
 import type { ReactNode } from 'react';
 
-type TabItem = {
+export type TabItem = {
     key: string;
     label: ReactNode;
     closable?: boolean;
+    time?: number;
 };
 
 interface TabPageState {
@@ -17,9 +19,10 @@ const initialState: TabPageState = {
     currentKey1: -1,
     currentKey2: [defaultMenuConfig.id.toString()],
     tabItems: [{
-        key: defaultMenuConfig.id.toString(),
+        key: defaultMenuConfig.path?.toString() || '',
         label: defaultMenuConfig.name,
         closable: false,
+        time: dayjs().valueOf()
     }]
 };
 
@@ -33,9 +36,16 @@ const TabPageSlice = createSlice({
 
         // 添加一个 MenuItem
         addTabItem(state, action: PayloadAction<TabItem>) {
-            const exists = state?.tabItems?.some(item => item.key === action.payload.key);
-            if (!exists) {
-                state.tabItems?.push(action.payload);
+            //const exists = state?.tabItems?.some(item => item.key === action.payload.key);
+            const item = state.tabItems?.find(item => item.key === action.payload.key);
+            if (item) {
+                //更新time
+                item.time = dayjs().valueOf();
+            } else {
+                state.tabItems?.push({
+                    ...action.payload,
+                    time: dayjs().valueOf(),
+                });
             }
         },
 

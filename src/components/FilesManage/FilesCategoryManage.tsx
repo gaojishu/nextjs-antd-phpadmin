@@ -103,7 +103,9 @@ export default function FilesCategoryManage({
                     record: () => ({
                         id: 0, // 确保唯一
                         name: '',
-                        remark: ''
+                        remark: '',
+                        createdAt: '',
+                        updatedAt: '',
                     }),
                 }}
                 onChange={() => {

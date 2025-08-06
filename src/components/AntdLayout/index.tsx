@@ -9,7 +9,9 @@ import FooterLayout from './FooterLayout';
 import HeaderLayout from './HeaderLayout';
 import TabPage from './TabPage';
 import { authInfo, authPermission, commonEnums } from '@/services';
+
 export default function AntdLayout({ children }: React.PropsWithChildren) {
+
     useEffect(() => {
         authInfo();
         authPermission();

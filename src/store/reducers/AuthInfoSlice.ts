@@ -15,6 +15,7 @@ const initialState: adminRecordExtra = {
     createdAt: '',
     updatedAt: '',
     deletedAt: '',
+    permissionKey: null,
 };
 
 const AuthInfoSlice = createSlice({

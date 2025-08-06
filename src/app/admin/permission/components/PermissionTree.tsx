@@ -62,7 +62,7 @@ export default function PermissionTree({
                     onChange={(value) => {
                         const role = roleRecordsData.find(item => item.id === value);
                         if (role) {
-                            onSearchRole(role);
+                            onSearchRole?.(role);
                         }
                     }}
                 />

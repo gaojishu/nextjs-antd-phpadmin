@@ -2,6 +2,7 @@
 
 import FilesManage from "@/components/FilesManage";
 import { Button, Col, Image, Row, Space } from "antd";
+import Notice from "./Notice";
 
 
 export default function HeaderLayout() {
@@ -25,9 +26,9 @@ export default function HeaderLayout() {
                             </Space>
                         </div>
                         <div>
-                            <Space>
+                            <Space size="large">
                                 <FilesManage count={9} isForm={false} />
-                                <Button>消息</Button>
+                                <Notice />
                                 <Button>右侧功能区</Button>
                             </Space>
                         </div>
