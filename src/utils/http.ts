@@ -126,11 +126,44 @@ const del = async <T = any>(request: request) => {
 }
 
 
+// const download = async (request: request) => {
+//     // 解析 URL
+//     const url = new URL(request.url);
+
+//     // 获取路径中的文件名（带扩展名）
+//     const filename = basename(url.pathname) || 'download';
+//     const writer = fs.createWriteStream(filename);
+
+//     const res = await instance.request({
+//         method: 'GET',
+//         url: request.url,
+//         params: request.params,
+//         ...request.config,
+//         responseType: 'blob'
+//     });
+//     // 将响应流写入文件
+//     res.data.pipe(writer);
+
+//     // 5. 返回 Promise 等待写入完成
+//     return new Promise<void>((resolve, reject) => {
+//         writer.on('finish', () => {
+//             console.log(`文件下载完成: ${filename}`);
+//             resolve();
+//         });
+
+//         writer.on('error', (err) => {
+//             console.error(`写入文件失败: ${filename}`, err);
+//             reject(err);
+//         });
+//     });
+// }
+
+
 const http = {
     get,
     post,
     put,
-    del
+    del,
 };
 
 export default http;

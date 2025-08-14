@@ -4,7 +4,6 @@ import FilesManage from "@/components/FilesManage";
 import { Button, Col, Image, Row, Space } from "antd";
 import Notice from "./Notice";
 
-
 export default function HeaderLayout() {
 
 

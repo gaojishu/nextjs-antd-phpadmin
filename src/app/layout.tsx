@@ -8,6 +8,7 @@ import locale from 'antd/locale/zh_CN';
 
 import "./globals.css";
 import ReduxProvider from "@/components/ReduxProvider";
+import { StompProvider } from "@/components/StompProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,17 +29,21 @@ export default function RootLayout({
   children
 }: React.PropsWithChildren) {
   console.log('RootLayout 只运行一次');
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+
         <ReduxProvider>
           <ConfigProvider theme={AntdThemeConfig} locale={locale}>
             <App message={{ maxCount: 1, duration: 3 }}>
               <GlobalProvider />
               <AntdRegistry>
-                {children}
+                <StompProvider>
+                  {children}
+                </StompProvider>
               </AntdRegistry>
             </App>
           </ConfigProvider>

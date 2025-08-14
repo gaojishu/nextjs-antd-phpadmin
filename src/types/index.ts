@@ -9,3 +9,4 @@ export * from './files.category';
 export * from './files';
 export * from './oss';
 export * from './actuator';
+export * from './notice';
