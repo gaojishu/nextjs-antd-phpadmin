@@ -9,6 +9,7 @@ import locale from 'antd/locale/zh_CN';
 import "./globals.css";
 import ReduxProvider from "@/components/ReduxProvider";
 import { StompProvider } from "@/components/StompProvider";
+import { GlobalRouteListener } from "@/components/Listener/GlobalRouteListener";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,11 +36,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-
         <ReduxProvider>
+
           <ConfigProvider theme={AntdThemeConfig} locale={locale}>
             <App message={{ maxCount: 1, duration: 3 }}>
               <GlobalProvider />
+              {/* 全局路由监听器 */}
+              <GlobalRouteListener />
               <AntdRegistry>
                 <StompProvider>
                   {children}

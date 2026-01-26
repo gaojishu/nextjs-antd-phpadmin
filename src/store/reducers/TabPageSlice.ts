@@ -9,13 +9,13 @@ export type TabItem = {
     closable?: boolean;
     time?: number;
     currentKey2: string[];
-    currentKey1: number;
+    currentKey1: number | string;
 };
 
 interface TabPageState {
     routePath: string;
     currentKey2: string[];
-    currentKey1: number;
+    currentKey1: number | string;
     tabItems: TabItem[];
 }
 
@@ -61,7 +61,7 @@ const TabPageSlice = createSlice({
             }
         },
 
-        setCurrentKey1(state, action: PayloadAction<number>) {
+        setCurrentKey1(state, action: PayloadAction<number | string>) {
             return {
                 ...state,
                 currentKey1: action.payload

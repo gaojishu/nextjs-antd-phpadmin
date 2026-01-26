@@ -19,7 +19,7 @@ const tabPersistenceMiddleware: Middleware<unknown, TabPageRootState, Dispatch<A
 
         switch (action.type) {
             case 'tabPageSlice/setRoutePath':
-                useRouterGlobal.push(store.getState().tabPage.routePath);
+                //useRouterGlobal.push(store.getState().tabPage.routePath);
                 break;
             case 'tabPageSlice/removeTabItem':
 

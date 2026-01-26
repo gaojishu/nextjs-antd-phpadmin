@@ -5,9 +5,8 @@ import { Dropdown, type MenuProps, Tabs } from "antd";
 import { useSelector } from 'react-redux';
 import { store } from '@/store';
 import { useDispatch } from 'react-redux';
-import { addTabItem, clearTabItems, removeTabItem, removeTabItemOther, setCurrentKey1, setCurrentKey2, setRoutePath, TabItem } from '@/store/reducers/TabPageSlice';
-import { useEffect, useState } from 'react';
-import path from 'path';
+import { removeTabItem, TabItem } from '@/store/reducers/TabPageSlice';
+import { useState } from 'react';
 
 type TargetKey = React.MouseEvent | React.KeyboardEvent | string;
 
@@ -15,60 +14,41 @@ export default function TabPage() {
     const router = useRouter();
     const pathname = usePathname();
     const dispatch = useDispatch();
-    const currentKey2 = useSelector(() => store.getState().tabPage.currentKey2);
+
     const tabsItems = useSelector(() => store.getState().tabPage.tabItems);
-    const permissionMenuTree = useSelector(() => store.getState().authPermission.permissionTree ?? []);
 
     const [tmpKey, setTmpKey] = useState<string>('');
-    const [tmpPath, setTmpPath] = useState<string>('');
 
-
-
-    useEffect(() => {
-        // const tmpItem = tabsItems.findIndex((item) => item.key === pathname);
-
-        // const newestTabItem = tabsItems
-        //     .filter(item => item.key !== tmpPath)
-        //     .reduce((max, item) => {
-        //         const maxTime = max?.time ?? 0;
-        //         const itemTime = item?.time ?? 0;
-        //         return itemTime > maxTime ? item : max;
-        //     }, undefined as TabItem | undefined);
-
-        // if (newestTabItem !== undefined && tmpItem < 0) {
-        //     console.log('newestTabItem', newestTabItem);
-        //     //router.push(newestTabItem.key);
-        // }
-    }, [tmpPath]);
 
     const items: MenuProps['items'] = [
         {
             label: '关闭当前',
             key: 'close',
+            disabled: true
         },
         {
             label: '关闭其它',
             key: 'closeOther',
+            disabled: true
         },
         {
             label: '关闭全部',
             key: 'closeAll',
+            disabled: true
         },
     ];
 
+    const handlerRemove = (targetKey: TargetKey | string) => {
+        dispatch(removeTabItem(targetKey.toString()));
+
+        const tabItem = routeLastTab(targetKey.toString());
+
+        router.push(tabItem?.key || '');
+    };
+
     const onClick: MenuProps['onClick'] = (info) => {
 
-        switch (info.key) {
-            case 'close':
-                dispatch(removeTabItem(tmpKey));
-                break;
-            case 'closeOther':
-                dispatch(removeTabItemOther(tmpKey));
-                break;
-            case 'closeAll':
-                dispatch(clearTabItems());
-                break;
-        }
+        console.log(info.key, 'info.key')
 
     };
 
@@ -85,17 +65,7 @@ export default function TabPage() {
     });
 
 
-    const handlerRemove = (targetKey: TargetKey | string) => {
-        dispatch(removeTabItem(targetKey.toString()));
 
-        const tabItem = routeLastTab(targetKey.toString());
-
-        if (tabItem) {
-            dispatch(setCurrentKey1(tabItem?.currentKey1));
-            dispatch(setCurrentKey2(tabItem?.currentKey2));
-            dispatch(setRoutePath(tabItem?.key));
-        }
-    };
 
     const routeLastTab = (key: string) => {
         //targetKey排除
@@ -114,21 +84,8 @@ export default function TabPage() {
 
     const handlerSwitchTab = (targetKey: TargetKey, event: string) => {
         if (event === 'click') {
-            const item = tabsItems.find(item => item?.key?.toString() === targetKey);
-
-            if (item) {
-                dispatch(setCurrentKey1(item?.currentKey1));
-                dispatch(setCurrentKey2(item?.currentKey2));
-                dispatch(addTabItem({
-                    label: item?.label,
-                    key: item?.key || '',
-                    currentKey1: item?.currentKey1,
-                    currentKey2: item?.currentKey2,
-                }));
-                dispatch(setRoutePath(item?.key || ''));
-            }
+            router.push(targetKey.toString());
         }
-
     };
 
     return (

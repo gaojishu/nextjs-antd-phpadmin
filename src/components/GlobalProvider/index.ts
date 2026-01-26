@@ -22,6 +22,7 @@ export default function GlobalProvider() {
 
     useRouterGlobal = useRouter();
     usePathnameGlobal = usePathname();
+
     return null;
 };
 
