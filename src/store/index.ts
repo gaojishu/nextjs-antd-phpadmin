@@ -8,14 +8,15 @@ import AuthInfoReducer from './reducers/AuthInfoSlice';
 import AuthPermissionReducer from './reducers/AuthPermissionSlice';
 import TabPageReducer from './reducers/TabPageSlice';
 import CommonEnumsReducer from './reducers/CommonEnumsSlice';
+import tabPersistenceMiddleware from '@/middleware/tabPersistence';
 
 
 // 不需要为 rootReducer 添加类型注解
 const rootReducer = combineReducers({
     authLoginState: AuthLoginReducer,
     authInfoState: AuthInfoReducer,
-    authPermissionState: AuthPermissionReducer,
-    tabPageState: TabPageReducer,
+    authPermission: AuthPermissionReducer,
+    tabPage: TabPageReducer,
     commonEnumsState: CommonEnumsReducer,
 });
 // 推断 RootState 类型
@@ -27,7 +28,7 @@ export const store = configureStore({
     reducer: persistedReducer,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
         serializableCheck: false, // 忽略序列化检查
-    }),
+    }).concat(tabPersistenceMiddleware),
 });
 
 export const persistor = persistStore(store);

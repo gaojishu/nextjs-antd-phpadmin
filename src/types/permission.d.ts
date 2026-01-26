@@ -1,4 +1,7 @@
 import { ICommonRecord, ValueLabel } from "./global";
+import type { MenuProps } from "antd";
+
+export type PermissionMenuTree = Required<MenuProps>['items'][number];
 
 export interface PermissionRecord extends ICommonRecord {
     name: string;

@@ -68,6 +68,8 @@ export default function Page(): React.ReactElement {
                 headerTitle=""
                 actionRef={actionRef}
                 columns={adminTableColumn}
+                virtual
+                scroll={{ y: 400 }}
                 request={
                     async (params, sort) => {
                         const data = await adminActionPage(params, sort);

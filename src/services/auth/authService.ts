@@ -1,23 +1,21 @@
-import { AdminRecord, PermissionRecord } from "@/types";
+import type { AdminRecord, PermissionMenuTree, PermissionRecord } from "@/types";
 import { store } from "@/store";
 import { authInfoStateUpdate } from "@/store/reducers/AuthInfoSlice";
 import { authPermissionStateUpdate } from "@/store/reducers/AuthPermissionSlice";
-import type { MenuProps } from "antd";
 import defaultMenuConfig from "@/config/defaultMenu.config";
 
-type MenuItem = Required<MenuProps>['items'][number];
 /**
  * 将 PermissionRecord[] 转换为 Ant Design 的 Menu 所需的 MenuItem[] 树形结构
  */
-export function buildMenuTree(permissionRecords: PermissionRecord[]): MenuItem[] {
+export function buildMenuTree(permissionRecords: PermissionRecord[]): PermissionMenuTree[] {
 
     // 第一步：构建树形结构（已有）
     const tree = buildPermissionRecordTree(permissionRecords);
 
     // 第二步：递归映射为 MenuItem 结构
-    const mapToMenuItem = (nodes: PermissionRecord[]): MenuItem[] => {
+    const mapToMenuItem = (nodes: PermissionRecord[]): PermissionMenuTree[] => {
         return nodes.map(node => ({
-            key: node.id.toString(),
+            key: node.key.toString(),
             label: node.name,
             children: node.children && node.children.length > 0
                 ? mapToMenuItem(node.children)
@@ -71,7 +69,8 @@ export function setAuthPermissionState(permissions: PermissionRecord[]) {
 
     store.dispatch(authPermissionStateUpdate({
         permission: permissions,
-        permissionCode: permissionCode
+        permissionCode: permissionCode,
+        permissionTree: buildMenuTree(permissions)
     }));
 }
 

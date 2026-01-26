@@ -1,14 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { PermissionRecord } from '@/types';
+import type { PermissionMenuTree, PermissionRecord } from '@/types';
 
 type AuthPermissionType = {
     permission: PermissionRecord[];
     permissionCode: string[];
+    permissionTree: PermissionMenuTree[];
+}
+
+export interface TabPageRootState {
+    authPermissionState: AuthPermissionType;
 }
 
 const initialState: AuthPermissionType = {
     permission: [],
-    permissionCode: []
+    permissionCode: [],
+    permissionTree: []
 };
 
 const AuthPermissionSlice = createSlice({
@@ -16,10 +22,8 @@ const AuthPermissionSlice = createSlice({
     initialState,
     reducers: {
         authPermissionStateUpdate(state, action: PayloadAction<Partial<AuthPermissionType>>) {
-            return {
-                ...state,
-                ...action.payload
-            };
+            // 使用immer的方式进行状态更新，而不是返回新对象
+            Object.assign(state, action.payload);
         },
 
         authPermissionStateRemove() {
