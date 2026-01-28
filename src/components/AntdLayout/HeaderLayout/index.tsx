@@ -1,8 +1,9 @@
 'use client'
 
 import FilesManage from "@/components/FilesManage";
-import { Button, Col, Image, Row, Space } from "antd";
+import { Avatar, Button, Col, Dropdown, Image, Row, Space } from "antd";
 import Notice from "./Notice";
+import UserDropdown from "./UserDropdown";
 
 export default function HeaderLayout() {
 
@@ -28,7 +29,8 @@ export default function HeaderLayout() {
                             <Space size="large">
                                 <FilesManage count={9} isForm={false} />
                                 <Notice />
-                                <Button>右侧功能区</Button>
+                                <UserDropdown />
+
                             </Space>
                         </div>
                     </div>

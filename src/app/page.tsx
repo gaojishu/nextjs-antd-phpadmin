@@ -39,8 +39,8 @@ export default function Page() {
   return (
     <AntdLayout>
       <Card>
-        <Title level={4}>系统健康状态</Title>
-        <Tag color={status === 'UP' ? 'success' : 'error'} style={{ marginBottom: 24, fontSize: 16, padding: '8px 16px' }}>
+        <Title level={5}>应用健康状态</Title>
+        <Tag color={status === 'UP' ? 'success' : 'error'} style={{ marginBottom: 24, fontSize: 14, padding: '8px 16px' }}>
           系统状态: {status}
         </Tag>
 

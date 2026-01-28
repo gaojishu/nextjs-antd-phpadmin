@@ -19,7 +19,7 @@ export default function AntdLayout({ children }: React.PropsWithChildren) {
     }, []);
 
     return (
-        <Layout className='w-screen min-h-full'>
+        <Layout className='h-screen'>
             <HeaderLayout />
             <Layout>
                 <Sider className='min-h-full' width={'auto'}>
