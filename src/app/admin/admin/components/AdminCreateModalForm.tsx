@@ -7,7 +7,6 @@ import {
 import type { ModalFormProps } from '@ant-design/pro-components';
 import { Col, Form, Row } from 'antd';
 import AdminDisabledStatusRadio from './AdminDisabledStatusRadio';
-import { useEffect, useState } from 'react';
 import { useWatch } from 'antd/es/form/Form';
 import PermissionTree from '@/app/admin/permission/components/PermissionTree';
 
@@ -19,23 +18,15 @@ export default function AdminCreateModalForm({
     ...props
 }: AdminModalFormProps) {
     const [form] = Form.useForm<AdminCreate>();
-    const [defaultCheckedKeys, setDefaultCheckedKeys] = useState<string[]>([]);
-    useEffect(() => {
-        form.setFieldsValue({
-            ...adminFormData
-        });
-        setDefaultCheckedKeys(adminFormData?.permissionKey);
 
-    }, [adminFormData]);
-    // 使用 useWatch ,为了解决报错 AdminCreateModalForm.tsx:22 Warning: Instance created by `useForm` is not co
-    useWatch('username', form);
+    // 在组件顶部
+    const permissionKey = useWatch('permissionKey', form) as string[] | undefined;
 
     // 重置不能触发  需要手动处理
     const handlerReset = () => {
         form.setFieldsValue({
             ...adminFormData
         });
-        setDefaultCheckedKeys(adminFormData.permissionKey);
     }
     return (
         <ModalForm<AdminCreate>
@@ -120,19 +111,14 @@ export default function AdminCreateModalForm({
                             checkable
                             defaultExpandAll
                             onCheck={(checkedKeys) => {
-                                // checkedKeys 可能是 { checked: [], halfChecked: [] }，根据 checkable 配置
-                                // 这里我们只关心完全选中的 keys
-                                //const selectedKeys = Array.isArray(checkedKeys) ? checkedKeys : checkedKeys?.checked || [];
                                 const strKey = checkedKeys as string[];
-
-                                form.setFieldsValue({ permissionKey: strKey }); // 手动设置表单值
-
-                                setDefaultCheckedKeys(strKey)
+                                form.setFieldsValue({ permissionKey: strKey });
                             }}
-                            checkedKeys={defaultCheckedKeys}
+                            // ✅ 关键修复：优先用表单值，没有就用初始数据
+                            checkedKeys={permissionKey || adminFormData?.permissionKey || []}
                             selectRole={true}
                             onSearchRole={(value) => {
-                                setDefaultCheckedKeys(value.permissionKey)
+                                form.setFieldsValue({ permissionKey: value.permissionKey });
                             }}
                         />
                     </ProForm.Item>

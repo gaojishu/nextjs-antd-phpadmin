@@ -1,9 +1,9 @@
 import nextCoreWebVitals from "eslint-config-next/core-web-vitals";
 import nextTypescript from "eslint-config-next/typescript";
-import { dirname } from "path";
-import { fileURLToPath } from "url";
+// import { dirname } from "path";
+// import { fileURLToPath } from "url";
 
-const __filename = fileURLToPath(import.meta.url);
+//const __filename = fileURLToPath(import.meta.url);
 
 const eslintConfig = [...nextCoreWebVitals, ...nextTypescript, {
   rules: {

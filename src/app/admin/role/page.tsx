@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Card, Col, Popconfirm, Row, Tabs } from 'antd';
 import type { TabsProps } from 'antd';
 import AntdLayout from '@/components/AntdLayout';
@@ -23,15 +23,7 @@ export default function Page(): React.ReactElement {
 
     const [roleFormData, setRoleFormData] = useState<RoleStore>(initialValues)
 
-    useEffect(() => {
-        fetchRoleRecords();
-    }, []);
-
-    useEffect(() => {
-        setActiveKey(roleFormData.id.toString());
-    }, [roleFormData]);
-
-    const fetchRoleRecords = async () => {
+    const fetchRoleRecords = useCallback(async () => {
         const data = await roleRecords();
         const tabsItems = data.map((item) => ({
             key: item.id.toString(),
@@ -39,8 +31,15 @@ export default function Page(): React.ReactElement {
         }));
         setRoleTabsData(tabsItems);
         setRoleRecordsData(data);
-    };
+    }, []);
 
+    useEffect(() => {
+        fetchRoleRecords();
+    }, [fetchRoleRecords]);
+
+    useEffect(() => {
+        setActiveKey(roleFormData.id.toString());
+    }, [roleFormData]);
 
     const handlerDelete = async () => {
         await roleDelete(roleId);
@@ -118,4 +117,3 @@ export default function Page(): React.ReactElement {
         </AntdLayout>
     );
 };
-

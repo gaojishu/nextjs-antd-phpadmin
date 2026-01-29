@@ -1,7 +1,7 @@
 'use client'
 
 import FilesManage from "@/components/FilesManage";
-import { Avatar, Button, Col, Dropdown, Image, Row, Space } from "antd";
+import { Button, Col, Image, Row, Space } from "antd";
 import Notice from "./Notice";
 import UserDropdown from "./UserDropdown";
 

@@ -1,11 +1,11 @@
 'use client'
 import AntdLayout from '@/components/AntdLayout';
 import React, { useEffect, useState } from 'react';
-import { Card, List, Tag, Progress, Typography, Divider, Descriptions, DescriptionsProps } from 'antd';
+import { Card, Tag, Progress, Typography, Descriptions, DescriptionsProps } from 'antd';
 import { actuatorHealth } from '@/services';
 import { HealthData } from '@/types';
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 // 格式化字节为 GB
 const formatBytes = (bytes: number) => {

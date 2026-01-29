@@ -32,6 +32,9 @@ export default function Page(): React.ReactElement {
         id: 0,
     });
 
+    // 父组件
+    const [modalOpenKey, setModalOpenKey] = useState(0);
+
 
     const adminTableColumn: ProColumns<AdminRecord>[] = [
         {
@@ -91,9 +94,6 @@ export default function Page(): React.ReactElement {
         },
     ];
 
-    const toolBarRender = [
-        <Button onClick={() => handlerAdd()} key="handlerAdd">新增</Button>
-    ];
 
     const handlerEdit = (record: AdminRecord) => {
         setAdminUpdateFormData({
@@ -101,6 +101,7 @@ export default function Page(): React.ReactElement {
             disabledStatus: record.disabledStatus.value
         });
         setAdminUpdateModalFormOpen(true);
+        setModalOpenKey(prev => prev + 1); // 👈 每次 +1
     };
 
     const handlerAdd = () => {
@@ -109,12 +110,16 @@ export default function Page(): React.ReactElement {
             ...adminInitFormData
         });
         setAdminCreateModalFormOpen(true);
+        setModalOpenKey(prev => prev + 1); // 👈 每次 +1
     };
 
     // const handlerDelete = async (id: number) => {
     //     await adminDelete(id);
     //     actionRef?.current?.reload();
     // };
+    const toolBarRender = [
+        <Button onClick={() => handlerAdd()} key="handlerAdd">新增</Button>
+    ];
 
     const handlerCreateSubmit = async (values: AdminCreate) => {
         await adminCreate(values);
@@ -133,7 +138,7 @@ export default function Page(): React.ReactElement {
         <AntdLayout>
             <AdminCreateModalForm
                 title='新增管理员'
-                key={'create'}
+                key={'create' + modalOpenKey} // 👈 必须！
                 open={adminCreateModalFormOpen}
                 onOpenChange={setAdminCreateModalFormOpen}
                 onFinish={(values) => handlerCreateSubmit(values)}
@@ -141,7 +146,7 @@ export default function Page(): React.ReactElement {
             />
             <AdminUpdateModalForm
                 title='编辑管理员'
-                key={'update'}
+                key={'update' + modalOpenKey}
                 open={adminUpdateModalFormOpen}
                 onOpenChange={setAdminUpdateModalFormOpen}
                 onFinish={(values) => handlerUpdateSubmit(values)}

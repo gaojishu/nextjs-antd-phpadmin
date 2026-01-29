@@ -57,6 +57,7 @@ export default function FilesSearchForm(props: FormProps) {
                                     label: 'name',
                                     value: 'id'
                                 }}
+                                allowClear
                             />
                         </ProForm.Item>
                     </Col>

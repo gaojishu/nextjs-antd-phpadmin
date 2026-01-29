@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import { store } from '@/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { addTabItem, setRoutePath, setCurrentKey1, setCurrentKey2 } from '@/store/reducers/TabPageSlice';
+import { addTabItem, setCurrentKey1, setCurrentKey2 } from '@/store/reducers/TabPageSlice';
 
 
 

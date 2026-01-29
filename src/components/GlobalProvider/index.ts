@@ -16,11 +16,15 @@ let usePathnameGlobal: string;
 
 export default function GlobalProvider() {
     const staticFunction = App.useApp();
+    // eslint-disable-next-line react-hooks/globals
     message = staticFunction.message;
+    // eslint-disable-next-line react-hooks/globals
     modal = staticFunction.modal;
+    // eslint-disable-next-line react-hooks/globals
     notification = staticFunction.notification;
-
+    // eslint-disable-next-line react-hooks/globals
     useRouterGlobal = useRouter();
+    // eslint-disable-next-line react-hooks/globals
     usePathnameGlobal = usePathname();
 
     return null;

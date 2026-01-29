@@ -6,7 +6,7 @@ import {
 } from '@ant-design/pro-components';
 import type { ProFormProps } from '@ant-design/pro-components';
 import { Form } from 'antd';
-import { useEffect, useState } from 'react';
+import { useWatch } from 'antd/es/form/Form';
 
 type RoleFormProps = ProFormProps<RoleStore> & {
     roleFormData: RoleStore;
@@ -18,15 +18,9 @@ export default function RoleForm({
 }: RoleFormProps) {
     // 获取 form 实例
     const [form] = Form.useForm();
-    const [defaultCheckedKeys, setDefaultCheckedKeys] = useState<string[]>([]);
-    useEffect(() => {
-        form.setFieldsValue({
-            ...roleFormData,
-            permissionKey: roleFormData?.permissionKey
-        });
-        setDefaultCheckedKeys(roleFormData?.permissionKey);
 
-    }, [form, roleFormData])
+    // 在组件顶部
+    const permissionKey = useWatch('permissionKey', form) as string[] | undefined;
 
     // 重置不能触发  需要手动处理
     const handleReset = () => {
@@ -34,7 +28,6 @@ export default function RoleForm({
             ...roleFormData,
             permissionKey: roleFormData?.permissionKey
         });
-        setDefaultCheckedKeys(roleFormData.permissionKey);
     }
 
     return (
@@ -60,14 +53,12 @@ export default function RoleForm({
                     checkable
                     defaultExpandAll
                     onCheck={(checkedKeys) => {
-                        // checkedKeys 可能是 { checked: [], halfChecked: [] }，根据 checkable 配置
-                        // 这里我们只关心完全选中的 keys
-                        //const selectedKeys = Array.isArray(checkedKeys) ? checkedKeys : checkedKeys?.checked || [];
-                        form.setFieldsValue({ permissionKey: checkedKeys }); // 手动设置表单值
-
-                        setDefaultCheckedKeys(checkedKeys as string[])
+                        const strKey = checkedKeys as string[];
+                        form.setFieldsValue({ permissionKey: strKey });
                     }}
-                    checkedKeys={defaultCheckedKeys}
+                    // ✅ 关键修复：优先用表单值，没有就用初始数据
+                    checkedKeys={permissionKey || roleFormData?.permissionKey || []}
+
                 />
             </ProForm.Item>
         </ProForm>

@@ -1,7 +1,7 @@
 'use client';
 import { Menu } from 'antd';
 import type { MenuProps } from 'antd';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { store } from '@/store';
 import { useSelector } from 'react-redux';
 import AntdThemeConfig from '@/config/theme.config';
@@ -17,26 +17,32 @@ export default function SiderLayout() {
     const permissionMenuTree = useSelector(() => store.getState().authPermission.permissionTree ?? []);
 
     const [menuTree2, setMenuTree2] = useState<MenuItem[]>([]);
-    const [menu1Index, setMenu1Index] = useState<number>(0);
 
-    //一级菜单选中 设置对应的二级菜单
-    useEffect(() => {
+    // 使用 useMemo 计算 menu1Index 和 menuTree2
+    const { menu1Index, computedMenuTree2 } = useMemo(() => {
         const index = permissionMenuTree.findIndex(item => item?.key?.toString() === currentKey1?.toString());
-        setMenu1Index(index);
+
+        let newMenuTree2: MenuItem[] = [];
         if (permissionMenuTree[index] && 'children' in permissionMenuTree[index] && permissionMenuTree[index].children) {
-            setMenuTree2(permissionMenuTree[index].children);
-        } else {
-            setMenuTree2([]);
+            newMenuTree2 = permissionMenuTree[index].children as MenuItem[];
         }
+
+        return {
+            menu1Index: index,
+            computedMenuTree2: newMenuTree2
+        };
     }, [currentKey1, permissionMenuTree]);
 
+    // 当计算结果变化时更新状态
+    useEffect(() => {
+        setMenuTree2(computedMenuTree2);
+    }, [computedMenuTree2]);
 
     /**
      * 切换一级菜单
      * @param index 
      */
     const handlerSwitchMenu1 = (index: number) => {
-
         if (permissionMenuTree[index] && 'children' in permissionMenuTree[index] && permissionMenuTree[index].children) {
             const menu2 = permissionMenuTree[index]?.children;
             setMenuTree2(menu2);
@@ -93,12 +99,13 @@ export default function SiderLayout() {
 
             {/* 右侧 Ant Design 菜单 */}
             <div className="min-h-full bg-white flex-1">
-                <Menu mode="inline"
-                    defaultSelectedKeys={currentKey2}
-                    defaultOpenKeys={currentKey2}
-                    selectedKeys={currentKey2}
-                    onSelect={(key) => {
-                        console.log(key, 'onselect');
+                <Menu
+                    mode="inline"
+                    defaultSelectedKeys={Array.isArray(currentKey2) ? currentKey2 : [currentKey2]}
+                    defaultOpenKeys={Array.isArray(currentKey2) ? currentKey2 : [currentKey2]}
+                    selectedKeys={Array.isArray(currentKey2) ? currentKey2 : [currentKey2]}
+                    onSelect={(info) => {
+                        console.log(info, 'onselect');
                     }}
                     theme="light"
                     items={menuTree2}
@@ -108,4 +115,3 @@ export default function SiderLayout() {
         </div>
     );
 };
-

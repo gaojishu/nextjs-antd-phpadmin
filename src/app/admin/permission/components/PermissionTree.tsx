@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Tree } from 'antd';
 import type { TreeDataNode, TreeProps } from 'antd';
 import { PermissionRecord, RoleRecord } from '@/types';
@@ -17,26 +17,29 @@ export default function PermissionTree({
 }: PermissionTreeProps) {
 
     const [permissionTreeData, setPermissionTreeData] = useState<TreeDataNode[]>([]);
-
     const [roleRecordsData, setRoleRecordsData] = useState<RoleRecord[]>([]);
-
-    useEffect(() => {
-        fetchPermissionTree();
-        if (selectRole) {
-            fetchRoleRecords();
-        }
-    }, [selectRole]);
+    const [loading, setLoading] = useState(false);
 
     const fetchRoleRecords = async () => {
-        const data = await roleRecords();
-        setRoleRecordsData(data);
+        try {
+            const data = await roleRecords();
+            setRoleRecordsData(data);
+        } catch (error) {
+            console.error('Failed to fetch role records:', error);
+        }
     };
 
     const fetchPermissionTree = async () => {
-        const data = await permissionTree();
-        const treeData = convertToTreetData(data);
-
-        setPermissionTreeData(treeData);
+        try {
+            setLoading(true);
+            const data = await permissionTree();
+            const treeData = convertToTreetData(data);
+            setPermissionTreeData(treeData);
+        } catch (error) {
+            console.error('Failed to fetch permission tree:', error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const convertToTreetData = (data: PermissionRecord[]): TreeDataNode[] => {
@@ -46,6 +49,20 @@ export default function PermissionTree({
             children: item.children ? convertToTreetData(item.children) : undefined,
         }));
     };
+
+    useEffect(() => {
+        // 将异步操作包装在立即执行的异步函数中
+        (async () => {
+            await fetchPermissionTree();
+            if (selectRole) {
+                await fetchRoleRecords();
+            }
+        })();
+    }, [selectRole]);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <>
@@ -75,6 +92,5 @@ export default function PermissionTree({
                 />
             }
         </>
-
     );
 };

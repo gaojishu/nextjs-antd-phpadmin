@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 import { store } from '@/store';
 import { useDispatch } from 'react-redux';
 import { removeTabItem, TabItem } from '@/store/reducers/TabPageSlice';
-import { useState } from 'react';
 
 type TargetKey = React.MouseEvent | React.KeyboardEvent | string;
 
@@ -16,9 +15,6 @@ export default function TabPage() {
     const dispatch = useDispatch();
 
     const tabsItems = useSelector(() => store.getState().tabPage.tabItems);
-
-    const [tmpKey, setTmpKey] = useState<string>('');
-
 
     const items: MenuProps['items'] = [
         {
@@ -57,7 +53,7 @@ export default function TabPage() {
             return {
                 key: item.key,
                 label: <Dropdown disabled={index == 0} onOpenChange={() => {
-                    setTmpKey(item.key)
+
                 }} menu={{ items, onClick }} trigger={['contextMenu']}>{item.label}</Dropdown>,
                 closable: item.closable,
             };

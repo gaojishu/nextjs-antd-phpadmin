@@ -42,6 +42,7 @@ export const StompProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         }
     };
 
+    // eslint-disable-next-line react-hooks/immutability
     useEffect(() => {
         if (!client) return;
 

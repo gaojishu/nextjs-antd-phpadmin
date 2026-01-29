@@ -1,8 +1,7 @@
 'use client'
 
 import { store } from "@/store";
-import { Avatar, Button, Col, Dropdown, Image, Row, Space } from "antd";
-import { useState } from "react";
+import { Button, Dropdown } from "antd";
 import { useSelector } from "react-redux";
 
 export default function UserDropdown() {
