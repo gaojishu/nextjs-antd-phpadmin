@@ -84,7 +84,7 @@ export default function FilesManage({
                 title="文件管理"
                 onClose={onCloseDrawer}
                 open={drawerOpen}
-                width={"60%"}
+                size={'large'}
             >
                 <FilesSearchForm
                     onValuesChange={(_, values) => handleSarchFormSubmit(values)}

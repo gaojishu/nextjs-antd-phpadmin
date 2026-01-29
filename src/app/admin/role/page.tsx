@@ -87,7 +87,7 @@ export default function Page(): React.ReactElement {
                             tabBarGutter={5}
                             activeKey={activeKey}
                             type="editable-card"
-                            tabPosition="left"
+                            tabPlacement='start'
                             removeIcon={
                                 <Popconfirm
                                     title="删除操作"

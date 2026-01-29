@@ -1,4 +1,3 @@
-import { useRouterGlobal } from '@/components/GlobalProvider';
 import type { TabPageRootState } from '@/store/reducers/TabPageSlice';
 import { Middleware, Dispatch, Action } from 'redux';
 
@@ -19,6 +18,7 @@ const tabPersistenceMiddleware: Middleware<unknown, TabPageRootState, Dispatch<A
 
         switch (action.type) {
             case 'tabPageSlice/setRoutePath':
+                console.log('setRoutePath', store.getState().tabPage.routePath);
                 //useRouterGlobal.push(store.getState().tabPage.routePath);
                 break;
             case 'tabPageSlice/removeTabItem':
