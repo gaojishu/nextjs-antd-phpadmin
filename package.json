@@ -18,6 +18,7 @@
     "@stomp/stompjs": "^7.1.1",
     "antd": "^6.2.2",
     "axios": "^1.10.0",
+    "camelcase-keys": "^10.0.2",
     "dayjs": "^1.11.13",
     "fs-extra": "^11.3.1",
     "next": "16.1.6",
@@ -27,6 +28,7 @@
     "react-redux": "^9.2.0",
     "redux": "^5.0.1",
     "redux-persist": "^6.0.0",
+    "snakecase-keys": "^9.0.2",
     "sockjs-client": "^1.6.1"
   },
   "devDependencies": {

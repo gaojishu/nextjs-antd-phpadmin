@@ -8,11 +8,13 @@ import type { AdminCreate, AdminRecord, AdminUpdate } from '@/types';
 import DateRange from '@/components/DateRange';
 import AdminCreateModalForm from './components/AdminCreateModalForm';
 import AdminUpdateModalForm from './components/AdminUpdateModalForm';
+import { store } from '@/store';
 
 export default function Page(): React.ReactElement {
     const actionRef = useRef<ActionType>(null);
     const [adminCreateModalFormOpen, setAdminCreateModalFormOpen] = useState(false);
     const [adminUpdateModalFormOpen, setAdminUpdateModalFormOpen] = useState(false);
+    const adminDisabledStatus = store.getState().commonEnumsState.adminDisabledStatus;
 
     const adminInitFormData: AdminCreate = {
         username: '',
@@ -50,7 +52,7 @@ export default function Page(): React.ReactElement {
             title: '禁用状态',
             dataIndex: 'disabledStatus',
             render: (_, record: AdminRecord) => {
-                return record.disabledStatus.label;
+                return adminDisabledStatus.find(item => item.value === record.disabledStatus)?.label || '未知状态';;
             },
             search: false,
         },
@@ -161,9 +163,9 @@ export default function Page(): React.ReactElement {
                         const data = await adminPage(params, sort);
 
                         return {
-                            data: data.content,
+                            data: data.data,
                             success: true,
-                            total: data.totalElements
+                            total: data.total,
                         };
                     }
                 }
@@ -171,6 +173,9 @@ export default function Page(): React.ReactElement {
                 toolBarRender={() => [
                     ...toolBarRender
                 ]}
+                pagination={{
+                    pageSize: 1,
+                }}
                 search={{
                     collapsed: false
                 }}

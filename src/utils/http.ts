@@ -7,6 +7,8 @@ import "nprogress/nprogress.css";
 import { ApiResponse } from '@/types';
 import { message as antdMessage, usePathnameGlobal, useRouterGlobal } from '@/components/GlobalProvider';
 import { store } from '@/store';
+import camelcaseKeys from 'camelcase-keys';
+import snakecaseKeys from 'snakecase-keys';
 
 NProgress.configure({ showSpinner: false });
 
@@ -28,6 +30,28 @@ instance.interceptors.request.use(config => {
     config.headers['Accept'] = 'application/json';
     config.headers['Content-Type'] = 'application/json';
     config.withCredentials = true;
+
+    console.log('config', config);
+    //--------start 分页参数处理
+    // if (config.data?.params?.current) {
+    //     config.params.page = config.data?.params?.current;
+    //     delete config.data?.params?.current; // 删除原有的 current
+    // }
+    // if (config.data?.params?.page_size) {
+    //     config.params.page_size = config.data?.params?.page_size;
+    //     delete config.data?.params?.page_size; // 删除原有的 current
+    // }
+    //--------end 分页参数处理
+
+    //--------start 请求数据处理  驼峰转蛇形
+    if (config.data && !(config.data instanceof FormData)) {
+        config.data = snakecaseKeys(config.data, { deep: true });
+    }
+    if (config.params) {
+        config.params = snakecaseKeys(config.params, { deep: true });
+    }
+    //--------end 请求数据处理  驼峰转蛇形
+
     return config;
 }, error => {
     antdMessage.error('err');
@@ -40,7 +64,11 @@ instance.interceptors.request.use(config => {
 instance.interceptors.response.use(
     (response: AxiosResponse) => {
         NProgress.done();
-        const { message } = response?.data ?? {};
+        //---------- start 响应数据处理  蛇形转驼峰
+        const { data } = response;
+        response.data = camelcaseKeys(data, { deep: true });
+        //---------end 响应数据处理  蛇形转驼峰
+        const { message } = data?.data ?? {};
         if (message) {
             // 可选：统一提示
             antdMessage.success(message);

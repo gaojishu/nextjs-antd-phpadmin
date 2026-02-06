@@ -28,7 +28,7 @@ export default function HeaderLayout() {
                         <div>
                             <Space size="large">
                                 <FilesManage count={9} isForm={false} />
-                                <Notice />
+
                                 <UserDropdown />
 
                             </Space>

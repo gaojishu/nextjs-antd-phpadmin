@@ -8,7 +8,7 @@ export interface AdminRecord extends ICommonRecord {
     email: string | null;
     password: string | null;
     username: string;
-    disabledStatus: ValueLabel;
+    disabledStatus: number;
     permission?: PermissionRecord[] | null;
     permissionKey: string[] | null;
 }

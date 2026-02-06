@@ -44,9 +44,7 @@ export default function RootLayout({
               {/* 全局路由监听器 */}
               <GlobalRouteListener />
               <AntdRegistry>
-                <StompProvider>
-                  {children}
-                </StompProvider>
+                {children}
               </AntdRegistry>
             </App>
           </ConfigProvider>
