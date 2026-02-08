@@ -1,10 +1,11 @@
-import { Button, Divider, Drawer, Image, Space } from "antd";
+import { Button, Divider, Drawer, Image, Popconfirm, Space } from "antd";
 import { useState } from "react";
 import FilesSearchForm from "./FilesSearchForm";
 import FilesUpload from "./FilesUpload";
 import { FilesPageParams } from "@/types/files";
 import FilesList from "./FileList";
 import { message } from "../GlobalProvider";
+import { filesDelete } from "@/services";
 
 type FilesManageProps = {
     count?: number;
@@ -31,8 +32,11 @@ export default function FilesManage({
     });
 
     const [selectFilesKey, setSelectFilesKey] = useState<string[]>([]);
+    // 用于在上传成功后触发 FilesList 重新拉取数据
+    const [listRefreshKey, setListRefreshKey] = useState(0);
 
     const showDrawer = () => {
+        setSelectFilesKey([]);
         setDrawerOpen(true);
     };
 
@@ -57,6 +61,13 @@ export default function FilesManage({
         } else {
             onChange?.(selectFilesKey);
         }
+        setSelectFilesKey([]);
+    };
+
+    const handlerDelete = async () => {
+        await filesDelete(selectFilesKey);
+        setListRefreshKey((k) => k + 1);
+        setSelectFilesKey([]);
     };
 
     return (
@@ -96,7 +107,21 @@ export default function FilesManage({
                         type="primary"
                         onClick={handlerUse}
                     >使用</Button>
-                    <FilesUpload />
+                    <FilesUpload
+                        onSubmitSuccess={() => {
+                            setListRefreshKey((k) => k + 1);
+                        }}
+                    />
+                    <Popconfirm
+                        title={"确认要删除选中的文件吗？"}
+                        onConfirm={() => handlerDelete()}
+                    >
+                        <Button
+                            disabled={selectFilesKey.length <= 0}
+                            danger
+                        >删除</Button>
+                    </Popconfirm>
+
                 </Space>
                 <Divider />
                 <div>
@@ -106,6 +131,7 @@ export default function FilesManage({
                         setFilesPageParams={setFilesPageParams}
                         selectFilesKey={selectFilesKey}
                         setSelectFilesKey={setSelectFilesKey}
+                        refreshKey={listRefreshKey}
                     />
                 </div>
             </Drawer>

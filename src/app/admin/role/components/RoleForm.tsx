@@ -1,4 +1,4 @@
-import PermissionTree from '@/app/admin/permission/components/PermissionTree';
+import PermissionTree from '@/app/admin/permission/components/PermissionTreeA';
 import type { RoleStore } from '@/types';
 import {
     ProForm,
@@ -7,6 +7,7 @@ import {
 import type { ProFormProps } from '@ant-design/pro-components';
 import { Form } from 'antd';
 import { useWatch } from 'antd/es/form/Form';
+import { useEffect } from 'react';
 
 type RoleFormProps = ProFormProps<RoleStore> & {
     roleFormData: RoleStore;
@@ -21,6 +22,13 @@ export default function RoleForm({
 
     // 在组件顶部
     const permissionKey = useWatch('permissionKey', form) as string[] | undefined;
+
+    useEffect(() => {
+        form.setFieldsValue({
+            ...roleFormData,
+        });
+    }, [roleFormData, form]);
+
 
     // 重置不能触发  需要手动处理
     const handleReset = () => {

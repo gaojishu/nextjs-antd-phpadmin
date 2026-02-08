@@ -6,7 +6,7 @@ export interface AdminActionRecord extends ICommonRecord {
     adminId: number | null;
     ip: string | null;
     method: string | null;
-    uri: string | null;
+    path: string | null;
     duration: number | null;
     remark: string | null;
     params: string | null;

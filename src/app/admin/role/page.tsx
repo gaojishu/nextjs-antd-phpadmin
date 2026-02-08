@@ -38,7 +38,7 @@ export default function Page(): React.ReactElement {
     }, [fetchRoleRecords]);
 
     useEffect(() => {
-        setActiveKey(roleFormData.id.toString());
+        setActiveKey(roleFormData.id + "");
     }, [roleFormData]);
 
     const handlerDelete = async () => {

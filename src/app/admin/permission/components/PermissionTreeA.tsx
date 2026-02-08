@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react';
 import { Tree } from 'antd';
 import type { TreeDataNode, TreeProps } from 'antd';
-import { PermissionRecord, RoleRecord } from '@/types';
+import { RoleRecord, PermissionTree } from '@/types';
 import { permissionTree, roleRecords } from '@/services';
 import { ProFormSelect } from '@ant-design/pro-components';
+import { store } from '@/store';
 
 type PermissionTreeProps = TreeProps & {
     selectRole?: boolean;
     onSearchRole?: (role: RoleRecord) => void;
 };
 
-export default function PermissionTree({
+export default function PermissionTreeA({
     selectRole,
     onSearchRole,
     ...props
@@ -19,6 +20,7 @@ export default function PermissionTree({
     const [permissionTreeData, setPermissionTreeData] = useState<TreeDataNode[]>([]);
     const [roleRecordsData, setRoleRecordsData] = useState<RoleRecord[]>([]);
     const [loading, setLoading] = useState(false);
+    const permissionTypeOption = store.getState().commonEnumsState.permissionType;
 
     const fetchRoleRecords = async () => {
         try {
@@ -42,9 +44,9 @@ export default function PermissionTree({
         }
     };
 
-    const convertToTreetData = (data: PermissionRecord[]): TreeDataNode[] => {
+    const convertToTreetData = (data: PermissionTree[]): TreeDataNode[] => {
         return data.map(item => ({
-            title: `${item.name} - ${item.type.label}`,
+            title: `${item.name} - ${permissionTypeOption.find(option => option.value === item.type)?.label}`,
             key: item.key,
             children: item.children ? convertToTreetData(item.children) : undefined,
         }));

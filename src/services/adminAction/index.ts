@@ -5,7 +5,7 @@ import type { SortOrder } from "antd/es/table/interface";
 
 export async function adminActionPage(params: ParamsType, sort: Record<string, SortOrder>) {
     const res = await http.post<ApiResponse<Pageable<AdminActionRecord>>>({
-        url: `/admin/admin-action/page`,
+        url: `/admin/admin_action/page`,
         params: {},
         data: {
             params, sort

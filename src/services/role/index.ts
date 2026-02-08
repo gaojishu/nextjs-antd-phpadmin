@@ -22,7 +22,7 @@ export async function roleStore(data: RoleStore) {
 
 export async function roleDelete(id: number) {
     const res = await http.get<ApiResponse<null>>({
-        url: `/admin/role/delete/${id}`,
+        url: `/admin/role/delete?id=${id}`,
         params: {},
     });
 

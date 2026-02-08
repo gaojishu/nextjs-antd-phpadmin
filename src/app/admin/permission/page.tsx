@@ -8,10 +8,13 @@ import { ProTable } from '@ant-design/pro-components';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import PermissionCreateModalForm from './components/PermissionCreateModalForm';
 import PermissionUpdateModalForm from './components/PermissionUpdateModalForm';
+import { store } from '@/store';
 
 export default function Page() {
     const [permissionCreateModalFormOpen, setPermissionCreateModalFormOpen] = useState(false);
     const [permissionUpdateModalFormOpen, setPermissionUpdateModalFormOpen] = useState(false);
+    const permissionType = store.getState().commonEnumsState.permissionType;
+
     const permissionInitFormData = {
         name: '',
         parentId: null,
@@ -40,7 +43,6 @@ export default function Page() {
         setPermissionUpdateFormData({
             ...record,
             roleId: [],
-            type: record.type.value,
         });
         setPermissionUpdateModalFormOpen(true);
     };
@@ -66,7 +68,7 @@ export default function Page() {
     };
 
     const handlerUpdateSubmit = async (values: PermissionUpdate) => {
-        await permissionUpdate(values.id, values);
+        await permissionUpdate(values);
         actionRef?.current?.reload();
         return true;
     };
@@ -81,7 +83,7 @@ export default function Page() {
             title: '类型',
             dataIndex: 'type',
             render: (_, record: PermissionRecord) => {
-                return record.type.label;
+                return permissionType.find(item => item.value === record.type)?.label;
             },
         },
         {

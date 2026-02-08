@@ -5,7 +5,8 @@ import { adminActionPage } from '@/services';
 import { type ProColumns, type ActionType, ProTable } from '@ant-design/pro-components';
 import type { AdminActionRecord } from '@/types';
 import DateRange from '@/components/DateRange';
-import { Button } from 'antd';
+import { Button, Typography } from 'antd';
+const { Paragraph } = Typography;
 
 export default function Page(): React.ReactElement {
     const actionRef = useRef<ActionType>(null);
@@ -17,25 +18,51 @@ export default function Page(): React.ReactElement {
             sorter: true,
         },
         {
+            title: '备注',
+            dataIndex: 'remark',
+        },
+        {
             title: '请求方法',
             dataIndex: 'method',
         },
         {
             title: '请求地址',
-            dataIndex: 'uri',
+            dataIndex: 'path',
         },
         {
             title: '请求参数',
             dataIndex: 'queryParams',
+            search: false,
+            render: (_, record) => {
+                return <Paragraph
+                    code
+                    copyable
+                    ellipsis={{
+                        rows: 2, expandable: true,
+                    }}>
+                    {JSON.stringify(record?.queryParams)}
+                </Paragraph >
+            },
         },
         {
             title: '请求参数',
             dataIndex: 'params',
+            search: false,
+            render: (_, record) => {
+                return <Paragraph
+                    code
+                    copyable
+                    ellipsis={{
+                        rows: 2, expandable: true, symbol: 'more'
+                    }}>
+                    {JSON.stringify(record?.params)}
+                </Paragraph >
+
+            },
         },
         {
             title: 'IP',
             dataIndex: 'ip',
-            search: false,
         },
         {
             title: '时长',
@@ -75,9 +102,9 @@ export default function Page(): React.ReactElement {
                         const data = await adminActionPage(params, sort);
 
                         return {
-                            data: data.content,
+                            data: data.data,
                             success: true,
-                            total: data.totalElements
+                            total: data.total
                         };
                     }
                 }
@@ -87,6 +114,9 @@ export default function Page(): React.ReactElement {
                 ]}
                 search={{
                     collapsed: false
+                }}
+                pagination={{
+                    pageSize: 10,
                 }}
             />
         </AntdLayout>

@@ -1,4 +1,4 @@
-import { ProForm } from "@ant-design/pro-components";
+import { ProForm, ProFormText } from "@ant-design/pro-components";
 import { Button, Col, Form, FormProps, Row, Select } from "antd";
 import { useEffect, useState } from "react";
 import FilesTypeRadio from "./FilesTypeRadio";
@@ -46,7 +46,14 @@ export default function FilesSearchForm(props: FormProps) {
                     }
                 }}
             >
+
                 <Row gutter={16}>
+                    <Col span={24}>
+                        <ProFormText
+                            name="name"
+                            label="名称"
+                        />
+                    </Col>
                     <Col span={12}>
                         <ProForm.Item name="categoryId" label="分类">
                             <Select

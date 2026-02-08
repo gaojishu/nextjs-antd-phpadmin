@@ -3,7 +3,7 @@ import http from "@/utils/http";
 
 export async function filesCategoryRecords() {
     const res = await http.get<ApiResponse<FilesCategoryRecord[]>>({
-        url: `/admin/files-category/records`,
+        url: `/admin/files_category/records`,
         params: {},
     });
 
@@ -12,7 +12,7 @@ export async function filesCategoryRecords() {
 
 export async function filesCategoryStore(data: FilesCategoryStore) {
     const res = await http.post<ApiResponse<null>>({
-        url: `/admin/files-category/store`,
+        url: `/admin/files_category/store`,
         params: {},
         data: data,
     });
@@ -22,7 +22,7 @@ export async function filesCategoryStore(data: FilesCategoryStore) {
 
 export async function filesCategoryDelete(id: number) {
     const res = await http.get<ApiResponse<null>>({
-        url: `/admin/files-category/delete/${id}`,
+        url: `/admin/files_category/delete?id=${id}`,
         params: {},
     });
 

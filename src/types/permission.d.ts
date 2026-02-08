@@ -1,4 +1,4 @@
-import { ICommonRecord, ValueLabel } from "./global";
+import { ICommonRecord } from "./global";
 import type { MenuProps } from "antd";
 
 export type PermissionMenuTree = Required<MenuProps>['items'][number];
@@ -12,9 +12,12 @@ export interface PermissionRecord extends ICommonRecord {
     icon: string | null;
     path: string | null;
     code: string | null;
-    type: ValueLabel;
+    type: number;
     sort: number;
-    children: PermissionRecord[];
+}
+
+export interface PermissionTree extends PermissionRecord {
+    children: PermissionTree[] | null;
 }
 
 export type PermissionCreate = Pick<PermissionRecord,

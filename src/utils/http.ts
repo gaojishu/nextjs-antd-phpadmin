@@ -65,10 +65,9 @@ instance.interceptors.response.use(
     (response: AxiosResponse) => {
         NProgress.done();
         //---------- start 响应数据处理  蛇形转驼峰
-        const { data } = response;
-        response.data = camelcaseKeys(data, { deep: true });
+        response.data = camelcaseKeys(response.data, { deep: true });
         //---------end 响应数据处理  蛇形转驼峰
-        const { message } = data?.data ?? {};
+        const { message } = response.data ?? {};
         if (message) {
             // 可选：统一提示
             antdMessage.success(message);

@@ -1,17 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Divider, Modal, Progress, Row, Select, Upload, UploadFile, type UploadProps } from 'antd';
+import { Button, Col, Divider, Input, Modal, Progress, Row, Select, Upload, UploadFile, type UploadProps } from 'antd';
 import type { FilesCategoryRecord, OssPostPolicy } from '@/types';
-import { ossPostPolicy } from '@/services/oss';
+import { ossPostPolicy } from '@/services';
 import { UploadOutlined } from '@ant-design/icons';
 import { filesCategoryRecords } from '@/services/filesCategory';
 import { filesCreate, filesHash } from '@/services';
 
-export default function FilesUpload() {
+type FilesUploadProps = {
+    /** 上传提交成功后的回调，可用于父组件刷新列表等 */
+    onSubmitSuccess?: () => void;
+};
+
+export default function FilesUpload({ onSubmitSuccess }: FilesUploadProps) {
 
     const [ossPostPolicyData, setOssPostPolicyData] = useState<OssPostPolicy>();
     const [filesUploadOpen, setFilesUploadOpen] = useState<boolean>(false);
     const [filesCategoryRecordsData, setFilesCategoryRecordsData] = useState<FilesCategoryRecord[]>([]);
     const [categoryId, setCategoryId] = useState<number | null>(null);
+    const [fileName, setFileName] = useState<string | null>(null);
     const [fileList, setFileList] = useState<UploadFile[]>([]);
     const [hashList, setHashList] = useState<Map<string, string>>();
 
@@ -31,7 +37,7 @@ export default function FilesUpload() {
     const handleSubmit = async () => {
         await filesCreate({
             fileList: fileList.map(item => ({
-                name: item.name,
+                name: fileName || item.name,
                 categoryId: categoryId,
                 key: ossPostPolicyData?.dir + item.name,
                 mimeType: item.type || '',
@@ -41,7 +47,7 @@ export default function FilesUpload() {
             }))
         });
         setFilesUploadOpen(false);
-
+        onSubmitSuccess?.();
     };
 
     const handleCancel = () => {
@@ -149,25 +155,6 @@ export default function FilesUpload() {
                 });
             }
         },
-        // itemRender: (_, file) => {
-        //     const { size = 0, name } = file;
-        //     return (
-        //         <div className='flex justify-between flex-y-center my-1 p-1 bu bg-gray-100 rounded-sm'>
-        //             <div>{name}</div>
-        //             <div className='text-gray-600'>({(size / 1024 / 1024).toFixed(2)}MB)</div>
-        //         </div>
-        //     );
-        // },
-        // showUploadList: {
-        //     extra: (file) => {
-        //         const { size = 0 } = file;
-        //         return (
-        //             <span className='text-gray-600'>({(size / 1024 / 1024).toFixed(2)}MB) - {file.response}</span>
-        //         )
-        //     },
-        //     showDownloadIcon: false,
-        //     showRemoveIcon: true,
-        // },
         showUploadList: false,
     }
 
@@ -181,6 +168,15 @@ export default function FilesUpload() {
                 onCancel={handleCancel}
             >
                 <Row gutter={[16, 16]}>
+                    <Col span={24}>
+                        <Input
+                            name="name"
+                            placeholder="请输入文件名"
+                            onChange={(value) => {
+                                setFileName(value?.target?.value);
+                            }}
+                        />
+                    </Col>
                     <Col span={24}>
                         <Select
                             placeholder="请选择分类"
@@ -217,8 +213,8 @@ export default function FilesUpload() {
                                             <Button type='link' size='small' danger onClick={() => handlerDelete(file.uid)}>删除</Button>
                                         </div>
                                         <div className='flex text-sm text-gray-500'>
-                                            <text>{file.status} </text>
-                                            <text>{file.response}</text>
+                                            <span>{file.status} </span>
+                                            <span>{file.response}</span>
                                         </div>
                                         <Progress percent={file.percent || 0} />
                                     </div>

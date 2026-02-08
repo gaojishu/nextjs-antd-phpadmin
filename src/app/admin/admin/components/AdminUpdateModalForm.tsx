@@ -8,7 +8,8 @@ import type { ModalFormProps } from '@ant-design/pro-components';
 import { Col, Form, Row } from 'antd';
 import AdminDisabledStatusRadio from './AdminDisabledStatusRadio';
 import { useWatch } from 'antd/es/form/Form';
-import PermissionTree from '@/app/admin/permission/components/PermissionTree';
+import PermissionTree from '@/app/admin/permission/components/PermissionTreeA';
+import { useEffect } from 'react';
 
 type AdminModalFormProps = ModalFormProps<AdminUpdate> &
 { adminFormData: AdminUpdate };
@@ -20,6 +21,13 @@ export default function AdminUpdateModalForm({
     const [form] = Form.useForm<AdminUpdate>();
     // 在组件顶部
     const permissionKey = useWatch('permissionKey', form) as string[] | undefined;
+
+    useEffect(() => {
+        form.setFieldsValue({
+            ...adminFormData,
+            permissionKey: adminFormData.permissionKey as string[]
+        });
+    }, [adminFormData, form]);
 
 
     // 重置不能触发  需要手动处理

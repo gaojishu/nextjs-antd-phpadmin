@@ -1,8 +1,9 @@
 import { message } from '@/components/GlobalProvider';
 import { filesPage } from '@/services';
+import { store } from '@/store';
 import type { FilesPageParams, Pageable } from '@/types';
 import { FilesRecord } from '@/types';
-import { Affix, Badge, Button, Col, Image, Pagination, Row, Tag, Tooltip } from 'antd';
+import { Affix, Badge, Button, Col, Image, Pagination, Row, Space, Tag, Tooltip } from 'antd';
 import { useEffect, useState } from 'react';
 
 
@@ -12,6 +13,8 @@ type FilesListProps = {
     count?: number,
     selectFilesKey: string[],
     setSelectFilesKey: React.Dispatch<React.SetStateAction<string[]>>;
+    /** 变化时重新拉取列表（如上传成功后由父组件递增） */
+    refreshKey?: number;
 }
 
 export default function FilesList({
@@ -19,9 +22,11 @@ export default function FilesList({
     setFilesPageParams,
     count = 1,
     selectFilesKey,
-    setSelectFilesKey
+    setSelectFilesKey,
+    refreshKey = 0
 }: FilesListProps) {
 
+    const fileType = store.getState().commonEnumsState.filesType;
     const [filesPageData, setFilesPageData] = useState<Pageable<FilesRecord>>();
     // const [selectFiles, setSelectFiles] = useState<FilesRecord[]>([]);
 
@@ -46,14 +51,13 @@ export default function FilesList({
         filesPage(filesPageParams, {}).then(res => {
             setFilesPageData(res);
         });
-
-    }, [filesPageParams]);
+    }, [filesPageParams, refreshKey]);
 
     // 复制文本到剪贴板的方法
     const handleCopyText = async (text: string) => {
         try {
             await navigator.clipboard.writeText(text);
-            message.info('sass')
+            message.success('复制成功')
         } catch (err) {
             console.error('无法复制文本: ', err);
         }
@@ -61,19 +65,20 @@ export default function FilesList({
 
 
 
+
     return (
         <div className="h-full">
             <Row gutter={[8, 8]}>
                 {
-                    filesPageData?.content?.map((item, index) => {
+                    filesPageData?.data?.map((item, index) => {
                         const pos = selectFilesKey.findIndex(sf => sf === item.key)
                         return (
                             <Col span={8} key={index}>
                                 <div className={`p-2 border-1 border-gray-300 rounded-sm`}>
                                     <Row gutter={[16, 16]}>
-                                        <Col span={12} className='w-[120] h-[120]'>
+                                        <Col span={14}>
                                             {
-                                                item.type.value === 'image' ? (
+                                                item.type === 'image' ? (
                                                     <Image
                                                         width={120}
                                                         height={120}
@@ -87,13 +92,13 @@ export default function FilesList({
                                                     </div>
                                             }
                                         </Col>
-                                        <Col span={12} onClick={() => handlerSelect(item)}>
+                                        <Col span={10} onClick={() => handlerSelect(item)}>
                                             <div className='flex justify-between'>
-                                                <Tag color="orange">{item.type.label}</Tag>
-                                                <div>
-                                                    <Badge count={pos + 1} />
-                                                </div>
+                                                <Tag color="orange">{fileType.find(t => t.value == item.type)?.label}</Tag>
+                                                <Badge count={pos + 1} />
                                             </div>
+
+
                                             <div>{(item.size / 1024 / 1024).toFixed(2) + 'MB'}</div>
                                         </Col>
                                         <Col span={24}>
@@ -107,18 +112,18 @@ export default function FilesList({
                                         </Col>
                                     </Row>
                                 </div>
-                            </Col>
+                            </Col >
                         )
                     })
                 }
-            </Row>
+            </Row >
             <div className='h-5'></div>
             <Affix offsetBottom={0}>
                 <div className='bg-white p-4 flex flex-y-center border-t border-gray-300'>
                     <Pagination
                         defaultCurrent={1}
                         pageSize={9}
-                        total={filesPageData?.totalElements}
+                        total={filesPageData?.total}
                         showTotal={(total, range) => `第 ${range[0]}-${range[1]} 条，共 ${total} 条`}
                         onChange={(page, pageSize) => {
                             setFilesPageParams({
@@ -131,6 +136,6 @@ export default function FilesList({
 
                 </div>
             </Affix>
-        </div>
+        </div >
     );
 };

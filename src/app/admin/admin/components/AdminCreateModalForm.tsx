@@ -8,7 +8,7 @@ import type { ModalFormProps } from '@ant-design/pro-components';
 import { Col, Form, Row } from 'antd';
 import AdminDisabledStatusRadio from './AdminDisabledStatusRadio';
 import { useWatch } from 'antd/es/form/Form';
-import PermissionTree from '@/app/admin/permission/components/PermissionTree';
+import PermissionTree from '@/app/admin/permission/components/PermissionTreeA';
 
 type AdminModalFormProps = ModalFormProps<AdminCreate> &
 { adminFormData: AdminCreate };

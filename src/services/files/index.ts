@@ -38,8 +38,20 @@ export async function filesUpdate(data: FilesUpdate) {
 
 export async function filesHash(hash: string) {
     const res = await http.get<ApiResponse<null>>({
-        url: `/admin/files/hash/${hash}`,
+        url: `/admin/files/hash?hash=${hash}`,
         params: {},
+    });
+
+    return res.data;
+}
+
+export async function filesDelete(keys: string[]) {
+    const res = await http.post<ApiResponse<null>>({
+        url: `/admin/files/delete`,
+        params: {},
+        data: {
+            keys: keys
+        },
     });
 
     return res.data;

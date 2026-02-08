@@ -99,8 +99,7 @@ export default function Page(): React.ReactElement {
 
     const handlerEdit = (record: AdminRecord) => {
         setAdminUpdateFormData({
-            ...record,
-            disabledStatus: record.disabledStatus.value
+            ...record
         });
         setAdminUpdateModalFormOpen(true);
         setModalOpenKey(prev => prev + 1); // 👈 每次 +1
@@ -174,7 +173,8 @@ export default function Page(): React.ReactElement {
                     ...toolBarRender
                 ]}
                 pagination={{
-                    pageSize: 1,
+                    pageSize: 10,
+                    current: 1,
                 }}
                 search={{
                     collapsed: false
