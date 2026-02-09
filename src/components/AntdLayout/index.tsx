@@ -1,8 +1,8 @@
 'use client'
 import React, { useEffect } from 'react';
 
-import { Layout, Watermark } from 'antd';
-const { Footer, Sider, Content } = Layout;
+import { Affix, Layout, Watermark } from 'antd';
+const { Sider, Content } = Layout;
 
 import SiderLayout from './SiderLayout';
 import FooterLayout from './FooterLayout';
@@ -20,26 +20,32 @@ export default function AntdLayout({ children }: React.PropsWithChildren) {
 
     return (
         <Layout className='h-screen'>
-            <HeaderLayout />
+
             <Layout>
-                <Sider className='min-h-full' width={'auto'}>
-                    <SiderLayout />
-                </Sider>
+                <Affix >
+                    <Sider className='min-h-full ' width={'auto'}>
+                        <SiderLayout />
+                    </Sider>
+                </Affix>
+
                 <Layout>
+                    <Affix>
+                        <div className='shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1)]'>
+                            <HeaderLayout />
+                            <TabPage />
+                        </div>
+                    </Affix>
 
                     <Content>
-                        <TabPage />
                         <main className='p-2'>
                             <Watermark content="xkl">
                                 {children}
                             </Watermark>
                         </main>
                     </Content>
-                    <Footer>
-                        <FooterLayout />
-                    </Footer>
+                    <FooterLayout />
                 </Layout>
             </Layout>
-        </Layout>
+        </Layout >
     )
 }

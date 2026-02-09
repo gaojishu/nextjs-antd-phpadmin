@@ -41,7 +41,7 @@ export default function NoticeTableModal({
                 <Space>
                     {record.attachments?.map((item, index) => (
                         <a key={index} href={item} target="_blank" rel="noreferrer">
-                            附件{index + 1}
+                            附件{index + 1} 下载
                         </a>
                     ))}
                 </Space>

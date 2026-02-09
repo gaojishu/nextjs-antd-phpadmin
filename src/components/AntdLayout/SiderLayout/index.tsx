@@ -1,5 +1,5 @@
 'use client';
-import { Menu } from 'antd';
+import { Affix, Image, Menu } from 'antd';
 import type { MenuProps } from 'antd';
 import { useState, useEffect, useMemo } from 'react';
 import { store } from '@/store';
@@ -71,46 +71,55 @@ export default function SiderLayout() {
     };
 
     return (
-        <div className="flex min-h-full">
-            {/* 左侧导航栏 */}
-            <div className={`min-h-full w-17 bg-[#001529] text-white cursor-pointer relative`}>
-                {/* 高亮条 */}
-                <div
-                    className={`absolute left-0 top-0 h-[60px] w-full  transition duration-800 ease-in-out pointer-events-none z-0`}
-                    style={
-                        menu1Index >= 0 ? {
-                            backgroundColor: AntdThemeConfig?.token?.colorPrimary,
-                            transform: `translateY(${menu1Index * 60}px)`,
-                        } : {}
-                    }
-                />
-
-                {/* 菜单项 */}
-                {permissionMenuTree.map((item, index) => (
-                    <div
-                        key={index}
-                        onClick={() => handlerSwitchMenu1(index)}
-                        className="relative z-10 h-[60px] flex items-center justify-center text-center hover:bg-gray-500 shadow-md transition duration-300"
-                    >
-                        {item && 'label' in item && item.label}
-                    </div>
-                ))}
+        <div>
+            <div className="flex items-center h-16 p-2 bg-gray-100 border-r-gray-200">
+                <Image width={30} preview={false} src="https://gw.alipayobjects.com/zos/antfincdn/aPkFc8Sj7n/method-draw-image.svg" alt="logo" />
+                <div>logo区</div>
             </div>
 
-            {/* 右侧 Ant Design 菜单 */}
-            <div className="min-h-full bg-white flex-1">
-                <Menu
-                    mode="inline"
-                    defaultSelectedKeys={Array.isArray(currentKey2) ? currentKey2 : [currentKey2]}
-                    defaultOpenKeys={Array.isArray(currentKey2) ? currentKey2 : [currentKey2]}
-                    selectedKeys={Array.isArray(currentKey2) ? currentKey2 : [currentKey2]}
-                    onSelect={(info) => {
-                        console.log(info, 'onselect');
-                    }}
-                    theme="light"
-                    items={menuTree2}
-                    onClick={({ key }) => handlerSwitchMenu2(key)}
-                />
+            <div className="flex h-screen">
+
+                {/* 左侧导航栏 */}
+                <div className={`flex-shrink-0  min-h-full w-17 bg-[#001529] text-white cursor-pointer relative`}>
+
+                    {/* 高亮条 */}
+                    <div
+                        className={`absolute left-0 top-0 h-[60px] w-full  transition duration-800 ease-in-out pointer-events-none z-0`}
+                        style={
+                            menu1Index >= 0 ? {
+                                backgroundColor: AntdThemeConfig?.token?.colorPrimary,
+                                transform: `translateY(${menu1Index * 60}px)`,
+                            } : {}
+                        }
+                    />
+
+                    {/* 菜单项 */}
+                    {permissionMenuTree.map((item, index) => (
+                        <div
+                            key={index}
+                            onClick={() => handlerSwitchMenu1(index)}
+                            className="relative z-10 h-[60px] flex items-center justify-center text-center hover:bg-gray-500 shadow-md transition duration-300"
+                        >
+                            {item && 'label' in item && item.label}
+                        </div>
+                    ))}
+                </div>
+
+                {/* 右侧 Ant Design 菜单 */}
+                <div className="min-h-full bg-white flex-1">
+                    <Menu
+                        mode="inline"
+                        defaultSelectedKeys={Array.isArray(currentKey2) ? currentKey2 : [currentKey2]}
+                        defaultOpenKeys={Array.isArray(currentKey2) ? currentKey2 : [currentKey2]}
+                        selectedKeys={Array.isArray(currentKey2) ? currentKey2 : [currentKey2]}
+                        onSelect={(info) => {
+                            console.log(info, 'onselect');
+                        }}
+                        theme="light"
+                        items={menuTree2}
+                        onClick={({ key }) => handlerSwitchMenu2(key)}
+                    />
+                </div>
             </div>
         </div>
     );
