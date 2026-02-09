@@ -8,8 +8,8 @@ import locale from 'antd/locale/zh_CN';
 
 import "./globals.css";
 import ReduxProvider from "@/components/ReduxProvider";
-import { StompProvider } from "@/components/StompProvider";
 import { GlobalRouteListener } from "@/components/Listener/GlobalRouteListener";
+import { SocketProvider } from "@/contexts/SocketProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -44,7 +44,9 @@ export default function RootLayout({
               {/* 全局路由监听器 */}
               <GlobalRouteListener />
               <AntdRegistry>
-                {children}
+                <SocketProvider>
+                  {children}
+                </SocketProvider>
               </AntdRegistry>
             </App>
           </ConfigProvider>

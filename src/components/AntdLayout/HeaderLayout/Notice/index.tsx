@@ -3,36 +3,37 @@
 import { BellOutlined } from '@ant-design/icons';
 import { Badge } from 'antd';
 import { useEffect, useState } from 'react';
-import { useStomp } from '@/components/StompProvider';
-import { notification } from '@/components/GlobalProvider';
 import NoticeTableModal from './NoticeTableModal';
+import { SocketClient, WsData } from '@/utils/SocketClient';
+import { notification } from '@/components/GlobalProvider';
+import { NoticeRecord } from '@/types';
 
 
 export default function Notice() {
-    const { client, connected } = useStomp();
+    const [count, setCount] = useState(0);
+
     const [noticeTableModalOpen, setNoticeTableModalOpen] = useState(false);
 
     useEffect(() => {
-        if (client && connected) {
-            const subscription = client.subscribe('/user/queue/notification', message => {
-                const obj = JSON.parse(message.body);
-                console.log('Received:', obj);
+        const socket = SocketClient.getInstance();
 
-                notification.info({
-                    message: obj.title,
-                    description: obj.content,
-                    duration: 5,
-                    showProgress: true
-                });
+        const handleNoticeUpdate = (data: WsData<NoticeRecord>) => {
+            setCount(prev => prev + 1);
+
+            notification.info({
+                title: data.data.title,
+                description: data.data.content
             });
+        };
 
+        // 订阅
+        socket.on('notice', handleNoticeUpdate);
 
-            return () => {
-                subscription.unsubscribe();
-            };
-        }
-    }, [client, connected]);
-
+        // 清理函数：防止内存泄漏和重复处理
+        return () => {
+            socket.off('notice', handleNoticeUpdate);
+        };
+    }, []); // 仅在挂载和卸载时执行
 
     return (
         <div>
@@ -40,19 +41,10 @@ export default function Notice() {
                 noticeTableModalOpen={noticeTableModalOpen}
                 setNoticeTableModalOpen={setNoticeTableModalOpen}
             />
-            <Badge dot count={22} size="small" onClick={() => setNoticeTableModalOpen(true)}>
+            <Badge count={count} size="small" onClick={() => setNoticeTableModalOpen(true)}>
                 <div className='hover:text-blue-500 cursor-pointer'>
-                    {/* <Dropdown
-                        autoFocus={true}
-                        trigger={['click']}
-                        popupRender={() => (
-                            <NoticeList />
-                        )}>
-                        <BellOutlined style={{ fontSize: 22 }} />
-                    </Dropdown> */}
                     <BellOutlined style={{ fontSize: 22 }} />
                 </div>
-
             </Badge>
         </div>
 

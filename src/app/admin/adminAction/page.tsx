@@ -1,15 +1,20 @@
 'use client'
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import AntdLayout from '@/components/AntdLayout';
-import { adminActionPage } from '@/services';
-import { type ProColumns, type ActionType, ProTable } from '@ant-design/pro-components';
+import { adminActionExport, adminActionPage } from '@/services';
+import { type ProColumns, type ActionType, ProTable, ParamsType } from '@ant-design/pro-components';
 import type { AdminActionRecord } from '@/types';
 import DateRange from '@/components/DateRange';
 import { Button, Typography } from 'antd';
+import { SortOrder } from 'antd/es/table/interface';
 const { Paragraph } = Typography;
 
 export default function Page(): React.ReactElement {
     const actionRef = useRef<ActionType>(null);
+
+    //params: ParamsType, sort: Record<string, SortOrder>
+    const [params, setParams] = useState<ParamsType>();
+    const [sort, setSort] = useState<Record<string, SortOrder>>();
 
     const adminTableColumn: ProColumns<AdminActionRecord>[] = [
         {
@@ -85,8 +90,15 @@ export default function Page(): React.ReactElement {
         }
     ];
 
+
+    const handlerExport = async () => {
+        await adminActionExport(params, sort);
+    };
+
+
+
     const toolBarRender = [
-        <Button key={'export'} >导出表格</Button>
+        <Button key={'export'} onClick={handlerExport}>导出表格</Button>
     ];
 
     return (
@@ -101,6 +113,8 @@ export default function Page(): React.ReactElement {
                     async (params, sort) => {
                         const data = await adminActionPage(params, sort);
 
+                        setParams(params);
+                        setSort(sort);
                         return {
                             data: data.data,
                             success: true,

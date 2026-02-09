@@ -4,7 +4,7 @@ import { noticePage } from '@/services';
 import { type ProColumns, type ActionType, ProTable } from '@ant-design/pro-components';
 import type { NoticeRecord } from '@/types';
 import DateRange from '@/components/DateRange';
-import { Modal, Space } from 'antd';
+import { Drawer, Space } from 'antd';
 
 type NoticeTableModalProps = {
     noticeTableModalOpen: boolean;
@@ -22,11 +22,11 @@ export default function NoticeTableModal({
             title: 'ID',
             dataIndex: 'id',
             sorter: true,
+            search: false
         },
         {
             title: '标题',
             dataIndex: 'title',
-            search: false,
         },
         {
             title: '内容',
@@ -69,12 +69,12 @@ export default function NoticeTableModal({
     };
 
     return (
-        <Modal
-            width={800}
-            title="系统通知"
+        <Drawer
+            title="消息中心"
+            onClose={handleCancel}
             open={noticeTableModalOpen}
-            onOk={handleCancel}
-            onCancel={handleCancel}
+            size={"large"}
+
         >
             <ProTable<NoticeRecord>
                 headerTitle=""
@@ -85,18 +85,18 @@ export default function NoticeTableModal({
                         const data = await noticePage(params, sort);
 
                         return {
-                            data: data.content,
+                            data: data.data,
                             success: true,
-                            total: data.totalElements
+                            total: data.total,
                         };
                     }
                 }
                 rowKey="id"
                 search={{
-                    collapsed: false
+                    defaultCollapsed: true
                 }}
             />
-        </Modal>
+        </Drawer>
 
     );
 };

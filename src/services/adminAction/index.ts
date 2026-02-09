@@ -15,3 +15,15 @@ export async function adminActionPage(params: ParamsType, sort: Record<string, S
     return res.data;
 }
 
+
+export async function adminActionExport(params: ParamsType | undefined, sort: Record<string, SortOrder> | undefined) {
+    const res = await http.post<ApiResponse<null>>({
+        url: `/admin/admin_action/export`,
+        params: {},
+        data: {
+            params, sort
+        },
+    });
+
+    return res.data;
+}
