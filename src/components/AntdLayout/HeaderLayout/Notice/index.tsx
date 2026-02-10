@@ -41,7 +41,10 @@ export default function Notice() {
                 noticeTableModalOpen={noticeTableModalOpen}
                 setNoticeTableModalOpen={setNoticeTableModalOpen}
             />
-            <Badge count={count} size="small" onClick={() => setNoticeTableModalOpen(true)}>
+            <Badge count={count} size="small" onClick={() => {
+                setCount(0);
+                setNoticeTableModalOpen(true);
+            }}>
                 <div className='hover:text-blue-500 cursor-pointer'>
                     <BellOutlined style={{ fontSize: 22 }} />
                 </div>
