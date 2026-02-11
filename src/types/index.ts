@@ -10,3 +10,4 @@ export * from './files';
 export * from './oss';
 export * from './actuator';
 export * from './notice';
+export * from './async.job'

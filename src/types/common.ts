@@ -5,5 +5,7 @@ export type CommonEnums = {
     permissionType: ValueLabel[];
     adminDisabledStatus: ValueLabel[];
     filesType: ValueLabel[];
+    asyncJobStatus: ValueLabel[];
+    asyncJobQueue: ValueLabel[];
 
 };

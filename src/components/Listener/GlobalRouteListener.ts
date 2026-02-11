@@ -31,7 +31,6 @@ export function GlobalRouteListener() {
         }
 
         const currentPermission = permission.find(item => item.path === pathname);
-        console.log('currentPermission', currentPermission);
 
         const key = currentPermission && currentPermission.key.split('-') || [];
 

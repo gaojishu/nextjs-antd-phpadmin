@@ -8,9 +8,3 @@ export interface NoticeRecord extends ICommonRecord {
     attachments: string[] | null;
 }
 
-
-export type FilesPageParams = {
-    current: number;
-    pageSize: number;
-    createdAt: string[] | null;
-}

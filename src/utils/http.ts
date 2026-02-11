@@ -31,7 +31,6 @@ instance.interceptors.request.use(config => {
     config.headers['Content-Type'] = 'application/json';
     config.withCredentials = true;
 
-    console.log('config', config);
     //--------start 分页参数处理
     // if (config.data?.params?.current) {
     //     config.params.page = config.data?.params?.current;
